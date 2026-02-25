@@ -16,79 +16,59 @@
     --blue: #2980b9;
     --text: #e8e8f0;
     --muted: #7878a0;
-    --ido: #e8b84b;
-    --wedo: #3498db;
-    --youdo: #e74c3c;
     --scaffold: #27ae60;
     --extend: #9b59b6;
+    --wedo: #3498db;
+    --youdo: #e74c3c;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; min-height: 100vh; }
 
   /* HERO */
   .hero {
-    min-height: 220px;
+    min-height: 180px;
     background: linear-gradient(to bottom, #0c0c0f 0%, #1a0a08 60%, #0c0c0f 100%);
     border-bottom: 2px solid var(--gold);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden;
+    padding: 2rem 2rem 1.5rem; text-align: center; position: relative; overflow: hidden;
   }
   .hero::before {
     content: ''; position: absolute; inset: 0;
     background: radial-gradient(ellipse at 50% 100%, rgba(232,184,75,0.2) 0%, transparent 70%);
   }
-  .film-strip { display: flex; gap: 0.3rem; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .film-strip { display: flex; gap: 0.3rem; margin-bottom: 1rem; position: relative; z-index: 1; }
   .film-frame {
-    width: 40px; height: 50px; background: var(--surface2);
+    width: 32px; height: 40px; background: var(--surface2);
     border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; position: relative;
   }
   .film-frame::before, .film-frame::after {
     content: ''; position: absolute; left: 50%; transform: translateX(-50%);
-    width: 8px; height: 6px; background: var(--bg); border-radius: 1px;
+    width: 7px; height: 5px; background: var(--bg); border-radius: 1px;
   }
-  .film-frame::before { top: 4px; }
-  .film-frame::after { bottom: 4px; }
+  .film-frame::before { top: 3px; }
+  .film-frame::after { bottom: 3px; }
   .hero h1 {
-    font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 6rem);
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 7vw, 5rem);
     letter-spacing: 4px; color: var(--gold); text-shadow: 0 0 60px rgba(232,184,75,0.4);
     position: relative; z-index: 1; line-height: 1;
   }
   .hero-sub {
-    font-family: 'DM Mono', monospace; color: var(--muted); font-size: 0.85rem;
-    letter-spacing: 3px; text-transform: uppercase; margin-top: 0.5rem; position: relative; z-index: 1;
+    font-family: 'DM Mono', monospace; color: var(--muted); font-size: 0.8rem;
+    letter-spacing: 3px; text-transform: uppercase; margin-top: 0.4rem; position: relative; z-index: 1;
   }
-  .hero-badges { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; position: relative; z-index: 1; }
-  .badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.25rem 0.8rem; border-radius: 3px; font-size: 0.8rem; color: var(--muted); font-family: 'DM Mono', monospace; }
-
-  /* NAV */
-  .lesson-nav {
-    background: var(--surface); border-bottom: 1px solid rgba(255,255,255,0.06);
-    padding: 0.8rem 1.5rem; display: flex; gap: 0.5rem; overflow-x: auto;
-    position: sticky; top: 0; z-index: 100;
-  }
-  .nav-btn {
-    background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--muted);
-    padding: 0.35rem 0.9rem; border-radius: 3px; cursor: pointer;
-    font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 1px;
-    white-space: nowrap; transition: all 0.2s; text-decoration: none;
-    display: inline-block; text-transform: uppercase;
-  }
-  .nav-btn:hover, .nav-btn.active { border-color: var(--gold); color: var(--gold); }
-  .nav-sep { color: rgba(255,255,255,0.15); display: flex; align-items: center; padding: 0 0.3rem; font-size: 0.8rem; }
-
-  /* LAYOUT */
-  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .hero-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; position: relative; z-index: 1; }
+  .badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.2rem 0.7rem; border-radius: 3px; font-size: 0.75rem; color: var(--muted); font-family: 'DM Mono', monospace; }
 
   /* SCENARIO SWITCHER */
   .scenario-switcher {
-    display: flex; gap: 0; margin-bottom: 2.5rem;
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;
+    display: flex; background: var(--surface); border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky; top: 0; z-index: 100;
   }
   .scenario-tab {
-    flex: 1; padding: 1.1rem 1.5rem; background: var(--surface2); border: none;
+    flex: 1; padding: 0.9rem 1.5rem; background: var(--surface2); border: none;
     cursor: pointer; transition: all 0.25s; text-align: left; position: relative;
-    border-right: 1px solid rgba(255,255,255,0.08);
+    border-right: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 0.8rem;
   }
   .scenario-tab:last-child { border-right: none; }
   .scenario-tab.active { background: rgba(232,184,75,0.08); }
@@ -96,59 +76,89 @@
     content: ''; position: absolute; bottom: 0; left: 0; right: 0;
     height: 2px; background: var(--gold);
   }
-  .tab-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 0.2rem; }
-  .tab-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; color: var(--text); }
-  .tab-genre { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+  .tab-inner { display: flex; flex-direction: column; }
+  .tab-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+  .tab-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 1px; color: var(--text); line-height: 1.2; }
+  .tab-genre { font-size: 0.75rem; color: var(--muted); }
   .scenario-tab.active .tab-title { color: var(--gold); }
+  .photopea-btn {
+    margin-left: auto; padding: 0 1.4rem; background: rgba(232,184,75,0.12);
+    border: none; border-left: 1px solid rgba(232,184,75,0.2); color: var(--gold);
+    font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 1px;
+    cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .photopea-btn:hover { background: rgba(232,184,75,0.22); }
+
+  /* MAIN LAYOUT */
+  .workbook { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
 
   /* SCENARIO PANELS */
   .scenario-panel { display: none; }
   .scenario-panel.active { display: block; }
 
-  /* SCENARIO BRIEF BANNER */
+  /* SLIDE SYSTEM */
+  .slides-container { position: relative; }
+  .slide { display: none; animation: slideIn 0.3s ease; }
+  .slide.active { display: block; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+    padding: 0.9rem 1.2rem; background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06); border-radius: 4px;
+  }
+  .progress-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); letter-spacing: 1px; white-space: nowrap; }
+  .progress-track { flex: 1; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; }
+  .progress-count { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gold); white-space: nowrap; }
+
+  /* SLIDE NAV */
+  .slide-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+    gap: 1rem;
+  }
+  .nav-prev, .nav-next {
+    padding: 0.7rem 1.6rem; border-radius: 3px; font-family: 'DM Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 1.5px; cursor: pointer; transition: all 0.2s;
+    text-transform: uppercase; border: none;
+  }
+  .nav-prev { background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.12); }
+  .nav-prev:hover:not(:disabled) { color: var(--text); border-color: rgba(255,255,255,0.3); }
+  .nav-prev:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav-next { background: var(--gold); color: var(--bg); font-weight: 700; }
+  .nav-next:hover { opacity: 0.88; }
+  .nav-next:disabled { opacity: 0.35; cursor: not-allowed; }
+  .nav-center { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--muted); text-align: center; }
+
+  /* SLIDE CONTENT COMPONENTS */
+
+  /* Brief banner */
   .scenario-brief {
     background: rgba(232,184,75,0.06); border: 1px solid rgba(232,184,75,0.25);
-    border-radius: 4px; padding: 1.4rem 1.6rem; margin-bottom: 2rem;
-    position: relative; overflow: hidden;
+    border-radius: 4px; padding: 1.6rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;
   }
-  .scenario-brief::before {
-    content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
-    background: var(--gold);
-  }
+  .scenario-brief::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--gold); }
   .brief-genre { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 0.4rem; }
-  .brief-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 2px; color: var(--text); line-height: 1; margin-bottom: 0.3rem; }
+  .brief-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 2px; color: var(--text); line-height: 1; margin-bottom: 0.3rem; }
   .brief-tagline { font-style: italic; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.8rem; }
-  .brief-desc { font-size: 0.92rem; color: var(--text); line-height: 1.6; margin-bottom: 1rem; }
+  .brief-desc { font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-bottom: 1rem; }
   .brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
   @media (max-width: 560px) { .brief-grid { grid-template-columns: 1fr; } }
   .brief-col h4 { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 0.4rem; }
   .element-pill { display: inline-block; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 0.12rem 0.55rem; border-radius: 2px; font-size: 0.72rem; color: var(--muted); margin: 0.15rem 0.15rem 0 0; }
 
-  /* ASSET CHECKLIST SECTION */
-  .asset-section { margin-bottom: 2rem; }
-  .asset-section-header {
-    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px;
-    color: var(--gold); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.6rem;
+  /* Step header */
+  .step-header {
+    display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem;
+    padding-bottom: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-  .asset-section-header::after {
-    content: ''; flex: 1; height: 1px; background: rgba(232,184,75,0.2);
-  }
-
-  /* LEARNING POINTS */
-  .learning-block {
-    background: var(--surface); border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 4px; overflow: hidden; margin-bottom: 2rem;
-  }
-  .learning-header {
-    padding: 1rem 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.06);
-    background: linear-gradient(90deg, rgba(232,184,75,0.08) 0%, transparent 60%);
-    display: flex; align-items: center; gap: 0.8rem;
-  }
-  .learning-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; color: var(--text); }
   .step-badge { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gold); border: 1px solid var(--gold); padding: 0.12rem 0.5rem; border-radius: 2px; letter-spacing: 2px; white-space: nowrap; }
-  .learning-body { padding: 1.4rem; }
+  .step-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: var(--text); }
 
-  /* KO BOX */
+  /* KO box */
   .ko-box { background: rgba(232,184,75,0.06); border: 1px solid rgba(232,184,75,0.2); border-radius: 4px; padding: 1.2rem; margin-bottom: 1.5rem; }
   .ko-box h3 { font-family: 'DM Mono', monospace; color: var(--gold); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.8rem; }
   .ko-row { display: flex; gap: 0.6rem; margin-bottom: 0.4rem; align-items: flex-start; }
@@ -156,18 +166,36 @@
   .ko-label.most { background: rgba(52,152,219,0.15); color: var(--wedo); }
   .ko-label.some { background: rgba(231,76,60,0.15); color: var(--youdo); }
 
-  /* STEPS */
-  .steps { margin: 0.8rem 0; }
-  .step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
-  .step-num { background: var(--gold); color: var(--bg); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; width: 28px; height: 28px; border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-  .step-content { flex: 1; }
-  .step-content h4 { font-weight: 700; margin-bottom: 0.3rem; }
-  .step-content p, .step-content ul { font-size: 0.9rem; color: var(--muted); }
-  .step-content ul { margin-left: 1.2rem; }
+  /* Video */
+  .video-wrap { margin: 0.6rem 0 1.2rem; border-radius: 4px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.08); }
+  .video-wrap video { width: 100%; display: block; max-height: 400px; }
+  .video-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 0.4rem; }
 
-  /* CHECKLIST */
+  /* Plan form */
+  .plan-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 1.4rem; margin: 0.8rem 0; }
+  .plan-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 1px; color: var(--text); margin-bottom: 1rem; }
+  .plan-field { margin-bottom: 0.9rem; }
+  .plan-field label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.35rem; }
+  .plan-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 3px; padding: 0.55rem 0.8rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; }
+  .plan-input:focus { outline: 1px solid var(--gold); border-color: transparent; }
+  .answer-box { width: 100%; min-height: 80px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 0.8rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; resize: vertical; margin-top: 0.1rem; }
+  .answer-box:focus { outline: 1px solid var(--gold); border-color: transparent; }
+  .save-indicator { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 1px; color: var(--scaffold); margin-top: 0.3rem; opacity: 0; transition: opacity 0.3s; }
+  .save-indicator.visible { opacity: 1; }
+
+  /* Asset grid */
+  .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 0.7rem; margin: 0.8rem 0; }
+  .asset-card { background: var(--surface2); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; padding: 0.9rem; }
+  .asset-card-icon { font-size: 1.6rem; margin-bottom: 0.4rem; display: block; }
+  .asset-card-type { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .asset-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+  .asset-card-examples { margin-top: 0.5rem; }
+  .asset-card-examples span { display: block; font-size: 0.8rem; color: var(--text); padding: 0.15rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .asset-card-examples span:last-child { border-bottom: none; }
+
+  /* Checklist */
   .checklist { margin: 0.8rem 0; }
-  .check-item { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.55rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem; }
+  .check-item { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.6rem 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem; }
   .check-item:last-child { border-bottom: none; }
   .check-item input[type=checkbox] { margin-top: 3px; accent-color: var(--gold); flex-shrink: 0; width: 16px; height: 16px; }
   .check-item label { cursor: pointer; line-height: 1.5; }
@@ -176,80 +204,52 @@
   .diff-most { background: rgba(52,152,219,0.15); color: #3498db; }
   .diff-some { background: rgba(155,89,182,0.15); color: #9b59b6; }
 
-  /* TIPS */
+  /* Tips */
   .tip-box { background: rgba(39,174,96,0.08); border: 1px solid rgba(39,174,96,0.3); border-radius: 4px; padding: 0.9rem 1.1rem; margin: 0.8rem 0; }
   .tip-header { color: var(--scaffold); font-weight: 700; font-size: 0.82rem; margin-bottom: 0.4rem; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
   .tip-box p, .tip-box li { font-size: 0.88rem; color: var(--text); }
   .tip-box ul { margin-left: 1.2rem; }
 
-  /* EXTEND */
+  /* Extension */
   .extend { background: rgba(155,89,182,0.08); border: 1px solid rgba(155,89,182,0.3); border-radius: 4px; padding: 0.9rem 1.1rem; margin: 0.8rem 0; }
   .extend-header { color: var(--extend); font-weight: 700; font-size: 0.82rem; margin-bottom: 0.4rem; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
   .extend p, .extend li { font-size: 0.88rem; }
   .extend ul { margin-left: 1.2rem; }
 
-  /* ANSWER BOX */
-  .answer-box { width: 100%; min-height: 80px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; padding: 0.8rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; resize: vertical; margin-top: 0.6rem; }
-  .answer-box:focus { outline: 1px solid var(--gold); border-color: transparent; }
+  /* Steps */
+  .steps { margin: 0.8rem 0; }
+  .step { display: flex; gap: 1rem; margin-bottom: 1.1rem; align-items: flex-start; }
+  .step-num { background: var(--gold); color: var(--bg); font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; width: 28px; height: 28px; border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-content { flex: 1; }
+  .step-content h4 { font-weight: 700; margin-bottom: 0.3rem; }
+  .step-content p { font-size: 0.9rem; color: var(--muted); }
 
-  /* LINK BUTTON */
-  .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--bg); font-weight: 700; padding: 0.55rem 1.2rem; border-radius: 3px; text-decoration: none; font-size: 0.88rem; margin: 0.4rem 0.3rem 0.4rem 0; transition: opacity 0.2s; font-family: 'DM Mono', monospace; letter-spacing: 1px; text-transform: uppercase; }
+  /* Link buttons */
+  .link-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--bg); font-weight: 700; padding: 0.55rem 1.2rem; border-radius: 3px; text-decoration: none; font-size: 0.88rem; margin: 0.3rem 0.3rem 0.3rem 0; transition: opacity 0.2s; font-family: 'DM Mono', monospace; letter-spacing: 1px; text-transform: uppercase; }
   .link-btn:hover { opacity: 0.85; }
   .link-btn.secondary { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+  .link-btn.blue { background: var(--blue); color: #fff; }
+  .link-btn.green { background: var(--scaffold); color: #fff; }
+  .link-btn.pexels { background: #05a081; color: #fff; }
 
-  /* ASSET IMAGE GRID */
-  .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.7rem; margin: 0.8rem 0; }
-  .asset-card {
-    background: var(--surface2); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 4px; padding: 0.9rem; position: relative;
-  }
-  .asset-card-icon { font-size: 1.6rem; margin-bottom: 0.4rem; display: block; }
-  .asset-card-type { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.2rem; }
-  .asset-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
-  .asset-card-examples { margin-top: 0.5rem; }
-  .asset-card-examples span { display: block; font-size: 0.8rem; color: var(--text); padding: 0.15rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  .asset-card-examples span:last-child { border-bottom: none; }
+  /* Save warning */
+  .save-warning { color: #e74c3c; font-weight: 700; margin-top: 1rem; font-size: 0.92rem; padding: 0.8rem 1rem; background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.3); border-radius: 4px; }
 
-  /* DIVIDER */
-  .section-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 2rem 0; }
+  /* Slide intro box */
+  .slide-intro { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 1.4rem; margin-bottom: 1.5rem; }
+  .slide-intro p { font-size: 1rem; color: var(--text); line-height: 1.7; margin-bottom: 0; }
 
-  /* PLAN BOX */
-  .plan-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 1.2rem; margin: 0.8rem 0; }
-  .plan-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; color: var(--text); margin-bottom: 0.8rem; }
-  .plan-field { margin-bottom: 0.7rem; }
-  .plan-field label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.3rem; }
-  .plan-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 3px; padding: 0.5rem 0.8rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; }
-  .plan-input:focus { outline: 1px solid var(--gold); border-color: transparent; }
-
-  /* PHASE HEADERS (for Photopea steps) */
-  .phase { margin-bottom: 1.5rem; border-radius: 4px; overflow: hidden; }
-  .phase-header { padding: 0.8rem 1.2rem; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; display: flex; align-items: center; gap: 0.7rem; }
-  .phase-body { padding: 1.2rem; }
-  .phase-icon { font-size: 1.2rem; }
-  .youdo .phase-header { background: rgba(231,76,60,0.12); color: var(--youdo); border-left: 3px solid var(--youdo); }
-  .youdo { background: rgba(231,76,60,0.04); border: 1px solid rgba(231,76,60,0.15); }
-
-  /* TASK LIST */
-  .task-list { margin: 0.8rem 0; }
-  .task-item { display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  .task-item:last-child { border-bottom: none; }
-  .t-num { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--gold); min-width: 24px; margin-top: 2px; }
-  .t-text { font-size: 0.92rem; }
-  .t-diff { display: inline-block; font-size: 0.7rem; font-family: 'DM Mono', monospace; padding: 0.1rem 0.4rem; border-radius: 2px; margin-left: 0.4rem; vertical-align: middle; }
-
-  /* SAVE WARNING */
-  .save-warning { color: #e74c3c; font-weight: 700; margin-top: 1rem; font-size: 0.92rem; }
+  /* Asset links section */
+  .asset-links { background: rgba(41,128,185,0.08); border: 1px solid rgba(41,128,185,0.3); border-radius: 4px; padding: 1.1rem 1.2rem; margin: 1rem 0; }
+  .asset-links-header { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; color: var(--blue); text-transform: uppercase; margin-bottom: 0.7rem; font-weight: 700; }
+  .asset-links-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.9rem; }
+  .asset-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
   h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
   h4 { font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 0.4rem; font-family: 'DM Mono', monospace; letter-spacing: 0.5px; text-transform: uppercase; }
   p { margin-bottom: 0.6rem; }
   ul, ol { margin: 0.4rem 0 0.6rem 1.4rem; }
   li { margin-bottom: 0.3rem; font-size: 0.92rem; }
-
-  /* VIDEO CLIPS */
-  .video-wrap { margin: 1rem 0 1.2rem; border-radius: 4px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.08); }
-  .video-wrap video { width: 100%; display: block; max-height: 420px; }
-  .video-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 0.4rem; }
 </style>
 </head>
 <body>
@@ -270,125 +270,163 @@
   </div>
 </div>
 
-<!-- NAV -->
-<nav class="lesson-nav">
-  <a class="nav-btn" href="#scenario1" onclick="switchScenario(1)">SCENARIO 1 — GALACTIC RIFT</a>
-  <span class="nav-sep">|</span>
-  <a class="nav-btn" href="#scenario2" onclick="switchScenario(2)">SCENARIO 2 — THE GREAT PET ESCAPE</a>
-  <span class="nav-sep">|</span>
-  <a class="nav-btn" href="https://www.photopea.com" target="_blank" style="color:var(--gold);border-color:var(--gold)">▶ OPEN PHOTOPEA</a>
-
-</nav>
-
-<div class="container">
-
-  <!-- SCENARIO SWITCHER TABS -->
-  <div class="scenario-switcher">
-    <button class="scenario-tab active" id="tab1" onclick="switchScenario(1)">
+<!-- SCENARIO TABS -->
+<div class="scenario-switcher">
+  <button class="scenario-tab active" id="tab1" onclick="switchScenario(1)">
+    <div class="tab-inner">
       <div class="tab-label">Scenario 01</div>
       <div class="tab-title">GALACTIC RIFT</div>
       <div class="tab-genre">🚀 Sci-Fi Thriller</div>
-    </button>
-    <button class="scenario-tab" id="tab2" onclick="switchScenario(2)">
+    </div>
+  </button>
+  <button class="scenario-tab" id="tab2" onclick="switchScenario(2)">
+    <div class="tab-inner">
       <div class="tab-label">Scenario 02</div>
       <div class="tab-title">THE GREAT PET ESCAPE</div>
       <div class="tab-genre">🐾 Family Comedy</div>
-    </button>
-  </div>
+    </div>
+  </button>
+  <a href="https://www.photopea.com" target="_blank" class="photopea-btn">▶ OPEN PHOTOPEA</a>
+</div>
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SCENARIO 1 — GALACTIC RIFT                     -->
-  <!-- ═══════════════════════════════════════════════ -->
+<!-- WORKBOOK -->
+<div class="workbook">
+
+  <!-- ═══════════ SCENARIO 1 — GALACTIC RIFT ═══════════ -->
   <div class="scenario-panel active" id="scenario1">
 
-    <!-- SCENARIO BRIEF -->
-    <div class="scenario-brief">
-      <div class="brief-genre">🚀 Sci-Fi Thriller · Scenario 01</div>
-      <div class="brief-title">GALACTIC RIFT</div>
-      <div class="brief-tagline">"A portal has opened. Not everyone will survive."</div>
-      <div class="brief-desc">
-        In 3025, Earth's greatest minds face catastrophe when a mysterious rift tears open in deep space, unleashing an unstoppable alien force. You have been commissioned to design the official theatrical movie poster. It must feel vast, dangerous, and cinematic — a world on the edge of destruction.
-      </div>
-      <div class="brief-grid">
-        <div class="brief-col">
-          <h4>Mood &amp; Tone</h4>
-          <span class="element-pill">Dark &amp; atmospheric</span>
-          <span class="element-pill">Cold cosmos</span>
-          <span class="element-pill">Glowing energy</span>
-          <span class="element-pill">Sense of scale</span>
-        </div>
-        <div class="brief-col">
-          <h4>Design Direction</h4>
-          <span class="element-pill">Deep blues &amp; purples</span>
-          <span class="element-pill">Metallic / geometric fonts</span>
-          <span class="element-pill">Dramatic lighting</span>
-          <span class="element-pill">Silhouettes &amp; figures</span>
-        </div>
-      </div>
+    <!-- Progress bar -->
+    <div class="progress-bar-wrap">
+      <span class="progress-label">PROGRESS</span>
+      <div class="progress-track"><div class="progress-fill" id="s1_progress" style="width:7%"></div></div>
+      <span class="progress-count" id="s1_count">1 / 14</span>
     </div>
 
-    <!-- STEP 1: MY MOVIE PLAN -->
-    <div class="learning-block">
-      <div class="learning-header">
-        <span class="step-badge">STEP 01</span>
-        <h2>MY MOVIE PLAN</h2>
+    <div class="slides-container" id="s1_slides">
+
+      <!-- SLIDE 1: Scenario Brief -->
+      <div class="slide active" data-slide="1">
+        <div class="scenario-brief">
+          <div class="brief-genre">🚀 Sci-Fi Thriller · Scenario 01</div>
+          <div class="brief-title">GALACTIC RIFT</div>
+          <div class="brief-tagline">"A portal has opened. Not everyone will survive."</div>
+          <div class="brief-desc">
+            In 3025, Earth's greatest minds face catastrophe when a mysterious rift tears open in deep space, unleashing an unstoppable alien force. You have been commissioned to design the official theatrical movie poster. It must feel vast, dangerous, and cinematic — a world on the edge of destruction.
+          </div>
+          <div class="brief-grid">
+            <div class="brief-col">
+              <h4>Mood &amp; Tone</h4>
+              <span class="element-pill">Dark &amp; atmospheric</span>
+              <span class="element-pill">Cold cosmos</span>
+              <span class="element-pill">Glowing energy</span>
+              <span class="element-pill">Sense of scale</span>
+            </div>
+            <div class="brief-col">
+              <h4>Design Direction</h4>
+              <span class="element-pill">Deep blues &amp; purples</span>
+              <span class="element-pill">Metallic / geometric fonts</span>
+              <span class="element-pill">Dramatic lighting</span>
+              <span class="element-pill">Silhouettes &amp; figures</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-intro">
+          <p>Welcome to the Movie Poster project! You'll work through this step by step — press <strong style="color:var(--gold)">Next</strong> when you're ready to move on. Your design plan will be saved automatically so you won't lose your work.</p>
+        </div>
       </div>
-      <div class="learning-body">
+
+      <!-- SLIDE 2: Step 01 - Watch video -->
+      <div class="slide" data-slide="2">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">MY MOVIE PLAN</span>
+        </div>
+        <div class="slide-intro">
+          <p>Before you start designing, you need a plan. Watch the video below — it walks you through what your design plan needs to include and why planning matters in real-world design work.</p>
+        </div>
         <p class="video-label">▶ Watch first — How to plan your poster</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip1_step1_design.mp4" type="video/mp4">
           </video>
         </div>
+      </div>
+
+      <!-- SLIDE 3: Step 01 - Key Objectives -->
+      <div class="slide" data-slide="3">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">MY MOVIE PLAN</span>
+        </div>
         <div class="ko-box">
-          <h3>🎯 Key Objectives</h3>
+          <h3>🎯 Key Objectives — What are you aiming for?</h3>
           <div class="ko-row"><span class="ko-label">ALL</span><span>Identify your target audience and explain how your design choices will attract them</span></div>
           <div class="ko-row"><span class="ko-label most">MOST</span><span>Plan a colour palette and composition that fits the genre</span></div>
           <div class="ko-row"><span class="ko-label some">SOME</span><span>Justify every design decision using media vocabulary</span></div>
         </div>
+        <div class="slide-intro">
+          <p>Read the objectives above carefully. Use them to guide your design plan on the next slide. Try to push yourself towards the <strong style="color:var(--wedo)">MOST</strong> level.</p>
+        </div>
+      </div>
 
+      <!-- SLIDE 4: Step 01 - Design Plan form -->
+      <div class="slide" data-slide="4">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">YOUR DESIGN PLAN</span>
+        </div>
         <div class="plan-box">
-          <h3>Your Design Plan</h3>
+          <h3>Fill in your plan — your answers save automatically ✓</h3>
           <div class="plan-field">
             <label>Your target audience</label>
-            <input class="plan-input" type="text" placeholder="e.g. 15–35 year olds, fans of sci-fi and action films...">
+            <input class="plan-input" id="s1_target" type="text" placeholder="e.g. 15–35 year olds, fans of sci-fi and action films...">
+            <div class="save-indicator" id="s1_target_saved">✓ Saved</div>
           </div>
           <div class="plan-field">
             <label>Why will they be attracted to this poster?</label>
-            <textarea class="answer-box" style="min-height:60px" placeholder="My target audience will be drawn in because..."></textarea>
+            <textarea class="answer-box" id="s1_attract" style="min-height:70px" placeholder="My target audience will be drawn in because..."></textarea>
+            <div class="save-indicator" id="s1_attract_saved">✓ Saved</div>
           </div>
           <div class="plan-field">
             <label>Colour palette (name 3–4 colours and WHY)</label>
-            <textarea class="answer-box" style="min-height:60px" placeholder="I will use deep navy blue because it suggests cold outer space...&#10;I will use electric purple to represent the rift's energy..."></textarea>
+            <textarea class="answer-box" id="s1_colours" style="min-height:80px" placeholder="I will use deep navy blue because it suggests cold outer space...&#10;I will use electric purple to represent the rift's energy..."></textarea>
+            <div class="save-indicator" id="s1_colours_saved">✓ Saved</div>
           </div>
           <div class="plan-field">
             <label>Key design elements you will include</label>
-            <textarea class="answer-box" style="min-height:60px" placeholder="My main image will show...&#10;I will create depth by..."></textarea>
+            <textarea class="answer-box" id="s1_elements" style="min-height:80px" placeholder="My main image will show...&#10;I will create depth by..."></textarea>
+            <div class="save-indicator" id="s1_elements_saved">✓ Saved</div>
           </div>
         </div>
+      </div>
 
+      <!-- SLIDE 5: Step 01 - Extension -->
+      <div class="slide" data-slide="5">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">EXTENSION — DESIGN RESEARCH</span>
+        </div>
         <div class="extend">
-          <div class="extend-header">🌟 EXTENSION — DESIGN RESEARCH</div>
+          <div class="extend-header">🌟 FINISHED EARLY? — DESIGN RESEARCH</div>
           <ul>
             <li>Look up the poster for <em>Interstellar</em>, <em>Arrival</em>, or <em>Dune</em>. What design techniques do they use to suggest vastness and isolation?</li>
             <li>Write two sentences comparing their composition choices to your own plan.</li>
           </ul>
         </div>
+        <div class="plan-box" style="margin-top:1rem;">
+          <div class="plan-field">
+            <label>Extension research notes</label>
+            <textarea class="answer-box" id="s1_extend1" style="min-height:100px" placeholder="I looked at the poster for... and noticed that...&#10;Compared to my plan, they..."></textarea>
+            <div class="save-indicator" id="s1_extend1_saved">✓ Saved</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- STEP 2: COLLECT YOUR ASSETS -->
-    <div class="learning-block">
-      <div class="learning-header">
-        <span class="step-badge">STEP 02</span>
-        <h2>COLLECT YOUR ASSETS</h2>
-      </div>
-      <div class="learning-body">
-        <p class="video-label">▶ Watch first — How to collect your assets</p>
-        <div class="video-wrap">
-          <video controls>
-            <source src="PosterClip2_step2_collect.mp4" type="video/mp4">
-          </video>
+      <!-- SLIDE 6: Step 02 - Watch video + KO -->
+      <div class="slide" data-slide="6">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">COLLECT YOUR ASSETS</span>
         </div>
         <div class="ko-box">
           <h3>🎯 Key Objectives</h3>
@@ -396,9 +434,21 @@
           <div class="ko-row"><span class="ko-label most">MOST</span><span>Collect a complete set of layered assets including objects and props</span></div>
           <div class="ko-row"><span class="ko-label some">SOME</span><span>Select images with intention, explaining how each one serves the poster's mood</span></div>
         </div>
+        <p class="video-label">▶ Watch first — How to collect your assets</p>
+        <div class="video-wrap">
+          <video controls>
+            <source src="PosterClip2_step2_collect.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
 
-        <p>Create a folder called <strong>assets</strong> in your Year 8 Computing folder. Find and save the following images for <strong>GALACTIC RIFT</strong>:</p>
-
+      <!-- SLIDE 7: Step 02 - Asset cards -->
+      <div class="slide" data-slide="7">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">WHAT DO YOU NEED TO FIND?</span>
+        </div>
+        <p>Create a folder called <strong>assets</strong> in your Year 8 Computing folder. You need to find and save these image types for <strong>GALACTIC RIFT</strong>:</p>
         <div class="asset-grid">
           <div class="asset-card">
             <span class="asset-card-icon">🌌</span>
@@ -441,16 +491,40 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="checklist" style="margin-top:1rem;">
+      <!-- SLIDE 8: Step 02 - Find images + checklist -->
+      <div class="slide" data-slide="8">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">FIND YOUR IMAGES</span>
+        </div>
+        <div class="asset-links">
+          <div class="asset-links-header">📁 Where to find your images</div>
+          <div class="asset-links-desc">Start with the pre-prepared assets folder — images are already organised for you. If you want more choice, use Pexels or Google Images (Creative Commons only).</div>
+          <div class="asset-btns">
+            <a href="https://torchacademygatewaytrust-my.sharepoint.com/:f:/r/personal/jconnolly_garibaldischool_co_uk/Documents/Tyrone%27s%20Folder/Movie%20Poster%20Assets?csf=1&web=1&e=dHI14d" target="_blank" class="link-btn">📁 Pre-Prepared Assets</a>
+            <a href="https://www.pexels.com" target="_blank" class="link-btn pexels">📷 Pexels (Free Images)</a>
+            <a href="https://www.google.com/search?tbm=isch&tbs=il:cl&q=space+nebula+background" target="_blank" class="link-btn secondary">🔍 Google Images (CC)</a>
+          </div>
+        </div>
+        <h3 style="margin-top:1.2rem;">Asset Checklist — tick off as you go</h3>
+        <div class="checklist">
           <div class="check-item"><input type="checkbox" id="s1_c1"><label for="s1_c1">🌌 Background saved — a space scene that feels vast and dramatic <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_c2"><label for="s1_c2">🧑‍🚀 Hero character image saved — astronaut, scientist or soldier <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_c3"><label for="s1_c3">🛸 At least one object or prop saved — spacecraft, rift, or alien element <span class="check-diff diff-most">MOST</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_c4"><label for="s1_c4">🎬 Studio logo saved as a PNG <span class="check-diff diff-most">MOST</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_c5"><label for="s1_c5">All images selected from the <strong>Movie Poster Assets</strong> folder <span class="check-diff diff-all">ALL</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s1_c6"><label for="s1_c6">A second character or secondary figure saved to add depth to the composition <span class="check-diff diff-some">SOME</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s1_c6"><label for="s1_c6">A second character or secondary figure saved to add depth <span class="check-diff diff-some">SOME</span></label></div>
         </div>
+      </div>
 
+      <!-- SLIDE 9: Step 02 - Extension -->
+      <div class="slide" data-slide="9">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">EXTENSION — THINK LIKE A DESIGNER</span>
+        </div>
         <div class="tip-box">
           <div class="tip-header">🪜 SUPPORT — FINDING YOUR IMAGES</div>
           <ul>
@@ -459,7 +533,6 @@
             <li>Pick images that match the Galactic Rift mood — dark space scenes, dramatic figures, sci-fi objects</li>
           </ul>
         </div>
-
         <div class="extend">
           <div class="extend-header">🌟 EXTENSION — THINK LIKE A DESIGNER</div>
           <ul>
@@ -467,184 +540,271 @@
             <li>Find two versions of a similar image (e.g. two different nebula photos) and explain which one you chose and why.</li>
           </ul>
         </div>
+        <div class="plan-box" style="margin-top:1rem;">
+          <div class="plan-field">
+            <label>Extension — image selection notes</label>
+            <textarea class="answer-box" id="s1_extend2" style="min-height:100px" placeholder="For my background I chose... because it communicates...&#10;I rejected the other image because..."></textarea>
+            <div class="save-indicator" id="s1_extend2_saved">✓ Saved</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- STEP 3: BUILD YOUR POSTER -->
-    <div class="learning-block">
-      <div class="learning-header">
-        <span class="step-badge">STEP 03</span>
-        <h2>BUILD YOUR POSTER IN PHOTOPEA</h2>
-      </div>
-      <div class="learning-body">
+      <!-- SLIDE 10: Step 03 - KO + Photopea -->
+      <div class="slide" data-slide="10">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">BUILD YOUR POSTER IN PHOTOPEA</span>
+        </div>
         <div class="ko-box">
           <h3>🎯 Key Objectives</h3>
           <div class="ko-row"><span class="ko-label">ALL</span><span>Open Photopea, set up the canvas, and place your background and hero image</span></div>
           <div class="ko-row"><span class="ko-label most">MOST</span><span>Layer multiple images, remove backgrounds, and adjust sizes to create depth</span></div>
           <div class="ko-row"><span class="ko-label some">SOME</span><span>Use blend modes, colour adjustments, and effects to create a cinematic, professional result</span></div>
         </div>
-
+        <div class="slide-intro">
+          <p>Open Photopea before moving on — it runs in your browser, no install needed. Keep this workbook open in a separate tab so you can follow along step by step.</p>
+        </div>
         <a href="https://www.photopea.com" target="_blank" class="link-btn">▶ OPEN PHOTOPEA</a>
+      </div>
 
-        <div class="steps" style="margin-top:1.2rem;">
-          <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Set Up Your Canvas</h4><p>File → New → click the <strong>Print</strong> tab → select <strong>A4</strong>. Then type <strong>galactic_rift_poster</strong> as the name. Click Create.</p></div></div>
+      <!-- SLIDE 11: Step 03 - Canvas + Background (steps 1-2 + video) -->
+      <div class="slide" data-slide="11">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">SET UP YOUR CANVAS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Set Up Your Canvas</h4><p>File → New → click the <strong>Print</strong> tab → select <strong>A4</strong>. Type <strong>galactic_rift_poster</strong> as the name. Click Create.</p></div></div>
           <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Place Your Background</h4><p>File → Place → select your space background. Drag the corners to fill the entire canvas. Press Enter to confirm. In the Layers panel, drag this layer to the very bottom.</p></div></div>
-        <p class="video-label">▶ Watch first — How to set up Photopea and place your background</p>
+        </div>
+        <p class="video-label">▶ Watch — How to set up Photopea and place your background</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip3_step3_photpea_setup.mp4" type="video/mp4">
           </video>
         </div>
-          <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Add Your Hero Character</h4><p>File → Place → select your astronaut or figure. Resize using corner handles (hold Shift to keep proportions). Press Enter. This layer goes above the background.</p></div></div>
+      </div>
+
+      <!-- SLIDE 12: Step 03 - Hero + Background Removal (steps 3-4 + video) -->
+      <div class="slide" data-slide="12">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">ADD YOUR HERO CHARACTER</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Add Your Hero Character</h4><p>File → Place → select your astronaut or figure. Resize using corner handles (hold Shift). Press Enter. This layer goes above the background.</p></div></div>
           <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Remove the Background from Your Character</h4><p>Select the character layer → Image → Remove Background. Or use the Magic Wand tool: click the background area → press Delete. Clean up any remaining edges.</p></div></div>
-        <p class="video-label">▶ Watch first — How to remove the background from your hero image</p>
+        </div>
+        <p class="video-label">▶ Watch — How to remove the background from your hero image</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip4_step4_herobackgroundremove.mp4" type="video/mp4">
           </video>
         </div>
-          <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Add Props &amp; Create Depth</h4><p>Place your spacecraft, rift, or objects. Size them so that objects closer to the viewer appear larger — this creates perspective. Reorder layers in the Layers panel to control what appears in front.</p></div></div>
+        <div class="tip-box" style="margin-top:0.5rem;">
+          <div class="tip-header">🪜 CAN'T REMOVE THE BACKGROUND?</div>
+          <ul>
+            <li>Try: <strong>Image → Remove Background</strong> (works best with clear contrast)</li>
+            <li>Or: Select the <strong>Magic Wand tool</strong> → click background area → press Delete</li>
+            <li>Or: Use images from the assets folder that already have a plain background</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SLIDE 13: Step 03 - Props + Save (steps 5-6 + video) -->
+      <div class="slide" data-slide="13">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">ADD DEPTH &amp; SAVE</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Add Props &amp; Create Depth</h4><p>Place your spacecraft, rift, or objects. Size them so objects closer to the viewer appear larger — this creates perspective. Reorder layers in the Layers panel to control what's in front.</p></div></div>
           <div class="step"><div class="step-num">6</div><div class="step-content"><h4>Save Your Progress</h4><p>File → Save As → choose Photopea PSD format. Wait for the white saving bar to fully disappear before doing anything else. Save regularly!</p></div></div>
-        <p class="video-label">▶ Watch first — How to check your work and save</p>
+        </div>
+        <p class="video-label">▶ Watch — How to check your work and save</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip5_step5_checkyourwork.mp4" type="video/mp4">
           </video>
         </div>
-        </div>
+      </div>
 
-        <h3 style="margin-top:1.2rem;">Build Checklist</h3>
+      <!-- SLIDE 14: Step 03 - Build Checklist + Extension + Save Warning -->
+      <div class="slide" data-slide="14">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">BUILD CHECKLIST</span>
+        </div>
         <div class="checklist">
           <div class="check-item"><input type="checkbox" id="s1_b1"><label for="s1_b1">🖼 Canvas created using File → New → Print → A4, named correctly <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_b2"><label for="s1_b2">🌌 Space background placed and filling the full canvas — at the bottom of the layers <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_b3"><label for="s1_b3">🧑‍🚀 Hero character placed above the background layer <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_b4"><label for="s1_b4">✂ Background removed from the character image <span class="check-diff diff-all">ALL</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s1_b5"><label for="s1_b5">🛸 At least one prop or object placed and sized for perspective (larger = closer) <span class="check-diff diff-most">MOST</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s1_b6"><label for="s1_b6">🎨 Used Image → Adjustments → Hue/Saturation to shift the background colour towards cold blues/purples <span class="check-diff diff-most">MOST</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s1_b7"><label for="s1_b7">✨ Applied a blend mode (e.g. Screen or Overlay) to one layer to create atmospheric lighting <span class="check-diff diff-some">SOME</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s1_b5"><label for="s1_b5">🛸 At least one prop placed and sized for perspective (larger = closer) <span class="check-diff diff-most">MOST</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s1_b6"><label for="s1_b6">🎨 Used Hue/Saturation to shift the background colour towards cold blues/purples <span class="check-diff diff-most">MOST</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s1_b7"><label for="s1_b7">✨ Applied a blend mode (Screen or Overlay) to one layer for atmospheric lighting <span class="check-diff diff-some">SOME</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_b8"><label for="s1_b8">🌟 Added a gradient overlay layer to create depth or a cinematic colour grade <span class="check-diff diff-some">SOME</span></label></div>
           <div class="check-item"><input type="checkbox" id="s1_b9"><label for="s1_b9">💾 PSD file saved — saving bar fully completed before closing <span class="check-diff diff-all">ALL</span></label></div>
         </div>
-
-        <div class="tip-box">
-          <div class="tip-header">🪜 SUPPORT — CAN'T REMOVE THE BACKGROUND?</div>
-          <ul>
-            <li>Try: <strong>Image → Remove Background</strong> (works best with clear contrast between subject and background)</li>
-            <li>Or: Select the <strong>Magic Wand tool</strong> → click the background → press Delete</li>
-            <li>Or: Look in the <strong>Movie Poster Assets</strong> folder for images that already have a plain or solid-colour background — these are much easier to remove</li>
-          </ul>
-        </div>
-
-        <div class="extend">
+        <div class="extend" style="margin-top:1rem;">
           <div class="extend-header">🌟 EXTENSION — CINEMATIC TECHNIQUES</div>
           <ul>
-            <li>Add a <strong>gradient overlay</strong>: create a new layer, use the Gradient tool (dark at edges, transparent in centre), set blend mode to "Multiply". This creates a vignette — used in almost every sci-fi poster.</li>
-            <li>Add a <strong>Curves adjustment layer</strong> (Layer → New Adjustment Layer → Curves) and pull the blue channel up slightly. This is how films achieve a cold, futuristic colour grade.</li>
-            <li>Duplicate your background layer, apply Filter → Blur → Gaussian Blur, then reduce the opacity to 40%. This adds an atmospheric haze to the scene.</li>
+            <li>Add a <strong>vignette</strong>: new layer, Gradient tool (dark at edges, transparent centre), blend mode "Multiply".</li>
+            <li>Add a <strong>Curves adjustment layer</strong> and pull the blue channel up slightly for a cold, futuristic colour grade.</li>
+            <li>Duplicate your background, apply Filter → Blur → Gaussian Blur, reduce opacity to 40% for atmospheric haze.</li>
           </ul>
         </div>
-
-        <p class="save-warning">⚠ WARNING: Save your PSD file BEFORE closing Photopea. Wait for the white saving bar to disappear completely!</p>
+        <p class="save-warning">⚠ SAVE your PSD file BEFORE closing Photopea. Wait for the white saving bar to disappear completely!</p>
       </div>
+
+    </div><!-- /s1_slides -->
+
+    <!-- Slide nav -->
+    <div class="slide-nav">
+      <button class="nav-prev" id="s1_prev" onclick="changeSlide(1,-1)" disabled>← BACK</button>
+      <span class="nav-center" id="s1_nav_label">Scenario 1 · Slide 1 of 14</span>
+      <button class="nav-next" id="s1_next" onclick="changeSlide(1,1)">NEXT →</button>
     </div>
 
   </div>
   <!-- /SCENARIO 1 -->
 
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- SCENARIO 2 — THE GREAT PET ESCAPE             -->
-  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ═══════════ SCENARIO 2 — THE GREAT PET ESCAPE ═══════════ -->
   <div class="scenario-panel" id="scenario2">
 
-    <!-- SCENARIO BRIEF -->
-    <div class="scenario-brief">
-      <div class="brief-genre">🐾 Family Comedy · Scenario 02</div>
-      <div class="brief-title">THE GREAT PET ESCAPE</div>
-      <div class="brief-tagline">"Smallest heroes. Biggest adventures."</div>
-      <div class="brief-desc">
-        A brave pug, a mischievous parrot, and a clever hamster must band together to find their way home after accidentally escaping from the city's biggest pet show. You have been commissioned to design the official theatrical movie poster. It must feel bright, joyful, and full of personality — every child in the audience should want to see it immediately.
-      </div>
-      <div class="brief-grid">
-        <div class="brief-col">
-          <h4>Mood &amp; Tone</h4>
-          <span class="element-pill">Bright &amp; warm</span>
-          <span class="element-pill">Fun &amp; chaotic</span>
-          <span class="element-pill">City adventure</span>
-          <span class="element-pill">Heartwarming</span>
-        </div>
-        <div class="brief-col">
-          <h4>Design Direction</h4>
-          <span class="element-pill">Warm yellows &amp; oranges</span>
-          <span class="element-pill">Bold rounded fonts</span>
-          <span class="element-pill">Cartoon or playful style</span>
-          <span class="element-pill">Busy, energetic composition</span>
-        </div>
-      </div>
+    <!-- Progress bar -->
+    <div class="progress-bar-wrap">
+      <span class="progress-label">PROGRESS</span>
+      <div class="progress-track"><div class="progress-fill" id="s2_progress" style="width:7%"></div></div>
+      <span class="progress-count" id="s2_count">1 / 14</span>
     </div>
 
-    <!-- STEP 1: MY MOVIE PLAN -->
-    <div class="learning-block">
-      <div class="learning-header">
-        <span class="step-badge">STEP 01</span>
-        <h2>MY MOVIE PLAN</h2>
+    <div class="slides-container" id="s2_slides">
+
+      <!-- SLIDE 1: Scenario Brief -->
+      <div class="slide active" data-slide="1">
+        <div class="scenario-brief">
+          <div class="brief-genre">🐾 Family Comedy · Scenario 02</div>
+          <div class="brief-title">THE GREAT PET ESCAPE</div>
+          <div class="brief-tagline">"Smallest heroes. Biggest adventures."</div>
+          <div class="brief-desc">
+            A brave pug, a mischievous parrot, and a clever hamster must band together to find their way home after accidentally escaping from the city's biggest pet show. You have been commissioned to design the official theatrical movie poster. It must feel bright, joyful, and full of personality — every child in the audience should want to see it immediately.
+          </div>
+          <div class="brief-grid">
+            <div class="brief-col">
+              <h4>Mood &amp; Tone</h4>
+              <span class="element-pill">Bright &amp; warm</span>
+              <span class="element-pill">Fun &amp; chaotic</span>
+              <span class="element-pill">City adventure</span>
+              <span class="element-pill">Heartwarming</span>
+            </div>
+            <div class="brief-col">
+              <h4>Design Direction</h4>
+              <span class="element-pill">Warm yellows &amp; oranges</span>
+              <span class="element-pill">Bold rounded fonts</span>
+              <span class="element-pill">Cartoon or playful style</span>
+              <span class="element-pill">Busy, energetic composition</span>
+            </div>
+          </div>
+        </div>
+        <div class="slide-intro">
+          <p>Welcome to the Movie Poster project! You'll work through this step by step — press <strong style="color:var(--gold)">Next</strong> when you're ready to move on. Your design plan will be saved automatically so you won't lose your work.</p>
+        </div>
       </div>
-      <div class="learning-body">
+
+      <!-- SLIDE 2: Step 01 - Watch video -->
+      <div class="slide" data-slide="2">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">MY MOVIE PLAN</span>
+        </div>
+        <div class="slide-intro">
+          <p>Before you start designing, you need a plan. Watch the video below — it walks you through what your design plan needs to include and why planning matters in real-world design work.</p>
+        </div>
         <p class="video-label">▶ Watch first — How to plan your poster</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip1_step1_design.mp4" type="video/mp4">
           </video>
         </div>
+      </div>
+
+      <!-- SLIDE 3: Step 01 - Key Objectives -->
+      <div class="slide" data-slide="3">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">MY MOVIE PLAN</span>
+        </div>
         <div class="ko-box">
-          <h3>🎯 Key Objectives</h3>
+          <h3>🎯 Key Objectives — What are you aiming for?</h3>
           <div class="ko-row"><span class="ko-label">ALL</span><span>Identify your target audience and explain how your design choices will attract them</span></div>
           <div class="ko-row"><span class="ko-label most">MOST</span><span>Plan a colour palette and composition that fits the genre</span></div>
           <div class="ko-row"><span class="ko-label some">SOME</span><span>Justify every design decision using media vocabulary</span></div>
         </div>
+        <div class="slide-intro">
+          <p>Read the objectives above carefully. Use them to guide your design plan on the next slide. Try to push yourself towards the <strong style="color:var(--wedo)">MOST</strong> level.</p>
+        </div>
+      </div>
 
+      <!-- SLIDE 4: Step 01 - Design Plan form -->
+      <div class="slide" data-slide="4">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">YOUR DESIGN PLAN</span>
+        </div>
         <div class="plan-box">
-          <h3>Your Design Plan</h3>
+          <h3>Fill in your plan — your answers save automatically ✓</h3>
           <div class="plan-field">
             <label>Your target audience</label>
-            <input class="plan-input" type="text" placeholder="e.g. families, children aged 5–12, parents looking for...">
+            <input class="plan-input" id="s2_target" type="text" placeholder="e.g. families, children aged 5–12, parents looking for...">
+            <div class="save-indicator" id="s2_target_saved">✓ Saved</div>
           </div>
           <div class="plan-field">
             <label>Why will they be attracted to this poster?</label>
-            <textarea class="answer-box" style="min-height:60px" placeholder="My target audience will be drawn in because..."></textarea>
+            <textarea class="answer-box" id="s2_attract" style="min-height:70px" placeholder="My target audience will be drawn in because..."></textarea>
+            <div class="save-indicator" id="s2_attract_saved">✓ Saved</div>
           </div>
           <div class="plan-field">
             <label>Colour palette (name 3–4 colours and WHY)</label>
-            <textarea class="answer-box" style="min-height:60px" placeholder="I will use bright yellow because it feels fun and energetic...&#10;I will use warm orange to suggest adventure and warmth..."></textarea>
+            <textarea class="answer-box" id="s2_colours" style="min-height:80px" placeholder="I will use bright yellow because it feels fun and energetic...&#10;I will use warm orange to suggest adventure and warmth..."></textarea>
+            <div class="save-indicator" id="s2_colours_saved">✓ Saved</div>
           </div>
           <div class="plan-field">
             <label>Key design elements you will include</label>
-            <textarea class="answer-box" style="min-height:60px" placeholder="My main image will show...&#10;I will create a sense of fun by..."></textarea>
+            <textarea class="answer-box" id="s2_elements" style="min-height:80px" placeholder="My main image will show...&#10;I will create a sense of fun by..."></textarea>
+            <div class="save-indicator" id="s2_elements_saved">✓ Saved</div>
           </div>
         </div>
+      </div>
 
+      <!-- SLIDE 5: Step 01 - Extension -->
+      <div class="slide" data-slide="5">
+        <div class="step-header">
+          <span class="step-badge">STEP 01</span>
+          <span class="step-title">EXTENSION — DESIGN RESEARCH</span>
+        </div>
         <div class="extend">
-          <div class="extend-header">🌟 EXTENSION — DESIGN RESEARCH</div>
+          <div class="extend-header">🌟 FINISHED EARLY? — DESIGN RESEARCH</div>
           <ul>
             <li>Look up the posters for <em>The Secret Life of Pets</em>, <em>Bolt</em>, or <em>Madagascar</em>. What design techniques make them instantly appealing to a young audience?</li>
             <li>Write two sentences comparing their composition choices to your own plan.</li>
           </ul>
         </div>
+        <div class="plan-box" style="margin-top:1rem;">
+          <div class="plan-field">
+            <label>Extension research notes</label>
+            <textarea class="answer-box" id="s2_extend1" style="min-height:100px" placeholder="I looked at the poster for... and noticed that...&#10;Compared to my plan, they..."></textarea>
+            <div class="save-indicator" id="s2_extend1_saved">✓ Saved</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- STEP 2: COLLECT YOUR ASSETS -->
-    <div class="learning-block">
-      <div class="learning-header">
-        <span class="step-badge">STEP 02</span>
-        <h2>COLLECT YOUR ASSETS</h2>
-      </div>
-      <div class="learning-body">
-        <p class="video-label">▶ Watch first — How to collect your assets</p>
-        <div class="video-wrap">
-          <video controls>
-            <source src="PosterClip2_step2_collect.mp4" type="video/mp4">
-          </video>
+      <!-- SLIDE 6: Step 02 - Watch video + KO -->
+      <div class="slide" data-slide="6">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">COLLECT YOUR ASSETS</span>
         </div>
         <div class="ko-box">
           <h3>🎯 Key Objectives</h3>
@@ -652,9 +812,21 @@
           <div class="ko-row"><span class="ko-label most">MOST</span><span>Collect a complete set of layered assets including objects and props</span></div>
           <div class="ko-row"><span class="ko-label some">SOME</span><span>Select images with intention, explaining how each one serves the poster's mood</span></div>
         </div>
+        <p class="video-label">▶ Watch first — How to collect your assets</p>
+        <div class="video-wrap">
+          <video controls>
+            <source src="PosterClip2_step2_collect.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
 
-        <p>Create a folder called <strong>assets</strong> in your Year 8 Computing folder. Find and save the following images for <strong>THE GREAT PET ESCAPE</strong>:</p>
-
+      <!-- SLIDE 7: Step 02 - Asset cards -->
+      <div class="slide" data-slide="7">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">WHAT DO YOU NEED TO FIND?</span>
+        </div>
+        <p>Create a folder called <strong>assets</strong> in your Year 8 Computing folder. Find and save these images for <strong>THE GREAT PET ESCAPE</strong>:</p>
         <div class="asset-grid">
           <div class="asset-card">
             <span class="asset-card-icon">🏙</span>
@@ -679,7 +851,7 @@
           <div class="asset-card">
             <span class="asset-card-icon">🎪</span>
             <div class="asset-card-type">Objects / Props</div>
-            <div class="asset-card-desc">Fun props that hint at the adventure and chaos</div>
+            <div class="asset-card-desc">Fun props that hint at adventure and chaos</div>
             <div class="asset-card-examples">
               <span>→ Pet carrier / cage</span>
               <span>→ Balloons or bunting</span>
@@ -697,8 +869,25 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="checklist" style="margin-top:1rem;">
+      <!-- SLIDE 8: Step 02 - Find images + checklist -->
+      <div class="slide" data-slide="8">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">FIND YOUR IMAGES</span>
+        </div>
+        <div class="asset-links">
+          <div class="asset-links-header">📁 Where to find your images</div>
+          <div class="asset-links-desc">Start with the pre-prepared assets folder — images are already organised for you. If you want more choice, use Pexels or Google Images (Creative Commons only).</div>
+          <div class="asset-btns">
+            <a href="https://torchacademygatewaytrust-my.sharepoint.com/:f:/r/personal/jconnolly_garibaldischool_co_uk/Documents/Tyrone%27s%20Folder/Movie%20Poster%20Assets?csf=1&web=1&e=dHI14d" target="_blank" class="link-btn">📁 Pre-Prepared Assets</a>
+            <a href="https://www.pexels.com" target="_blank" class="link-btn pexels">📷 Pexels (Free Images)</a>
+            <a href="https://www.google.com/search?tbm=isch&tbs=il:cl&q=cute+animals+city" target="_blank" class="link-btn secondary">🔍 Google Images (CC)</a>
+          </div>
+        </div>
+        <h3 style="margin-top:1.2rem;">Asset Checklist — tick off as you go</h3>
+        <div class="checklist">
           <div class="check-item"><input type="checkbox" id="s2_c1"><label for="s2_c1">🏙 Background saved — a bright city or outdoor scene <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_c2"><label for="s2_c2">🐾 At least one animal character saved — pug, parrot, or hamster <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_c3"><label for="s2_c3">🎪 At least one prop or object saved that fits the adventure theme <span class="check-diff diff-most">MOST</span></label></div>
@@ -706,7 +895,14 @@
           <div class="check-item"><input type="checkbox" id="s2_c5"><label for="s2_c5">All images selected from the <strong>Movie Poster Assets</strong> folder <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_c6"><label for="s2_c6">A second or third animal character saved to populate the poster with all three pets <span class="check-diff diff-some">SOME</span></label></div>
         </div>
+      </div>
 
+      <!-- SLIDE 9: Step 02 - Extension -->
+      <div class="slide" data-slide="9">
+        <div class="step-header">
+          <span class="step-badge">STEP 02</span>
+          <span class="step-title">EXTENSION — THINK LIKE A DESIGNER</span>
+        </div>
         <div class="tip-box">
           <div class="tip-header">🪜 SUPPORT — FINDING YOUR IMAGES</div>
           <ul>
@@ -715,7 +911,6 @@
             <li>Pick images that match The Great Pet Escape mood — bright city scenes, cute animals, fun props</li>
           </ul>
         </div>
-
         <div class="extend">
           <div class="extend-header">🌟 EXTENSION — THINK LIKE A DESIGNER</div>
           <ul>
@@ -723,105 +918,222 @@
             <li>Find two versions of a similar image (e.g. two different pug photos) and explain which one you chose and why — consider expression, angle, and energy.</li>
           </ul>
         </div>
+        <div class="plan-box" style="margin-top:1rem;">
+          <div class="plan-field">
+            <label>Extension — image selection notes</label>
+            <textarea class="answer-box" id="s2_extend2" style="min-height:100px" placeholder="For my main character I chose... because it communicates...&#10;I rejected the other image because..."></textarea>
+            <div class="save-indicator" id="s2_extend2_saved">✓ Saved</div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- STEP 3: BUILD YOUR POSTER -->
-    <div class="learning-block">
-      <div class="learning-header">
-        <span class="step-badge">STEP 03</span>
-        <h2>BUILD YOUR POSTER IN PHOTOPEA</h2>
-      </div>
-      <div class="learning-body">
+      <!-- SLIDE 10: Step 03 - KO + Photopea -->
+      <div class="slide" data-slide="10">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">BUILD YOUR POSTER IN PHOTOPEA</span>
+        </div>
         <div class="ko-box">
           <h3>🎯 Key Objectives</h3>
           <div class="ko-row"><span class="ko-label">ALL</span><span>Open Photopea, set up the canvas, and place your background and hero image</span></div>
           <div class="ko-row"><span class="ko-label most">MOST</span><span>Layer multiple images, remove backgrounds, and adjust sizes to create depth</span></div>
           <div class="ko-row"><span class="ko-label some">SOME</span><span>Use blend modes, colour adjustments, and effects to create a vibrant, professional result</span></div>
         </div>
-
+        <div class="slide-intro">
+          <p>Open Photopea before moving on — it runs in your browser, no install needed. Keep this workbook open in a separate tab so you can follow along step by step.</p>
+        </div>
         <a href="https://www.photopea.com" target="_blank" class="link-btn">▶ OPEN PHOTOPEA</a>
+      </div>
 
-        <div class="steps" style="margin-top:1.2rem;">
-          <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Set Up Your Canvas</h4><p>File → New → click the <strong>Print</strong> tab → select <strong>A4</strong>. Then type <strong>pet_escape_poster</strong> as the name. Click Create.</p></div></div>
+      <!-- SLIDE 11: Step 03 - Canvas + Background (steps 1-2 + video) -->
+      <div class="slide" data-slide="11">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">SET UP YOUR CANVAS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Set Up Your Canvas</h4><p>File → New → click the <strong>Print</strong> tab → select <strong>A4</strong>. Type <strong>pet_escape_poster</strong> as the name. Click Create.</p></div></div>
           <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Place Your Background</h4><p>File → Place → select your city background. Drag the corners to fill the entire canvas. Press Enter to confirm. In the Layers panel, drag this layer to the very bottom.</p></div></div>
-        <p class="video-label">▶ Watch first — How to set up Photopea and place your background</p>
+        </div>
+        <p class="video-label">▶ Watch — How to set up Photopea and place your background</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip3_step3_photpea_setup.mp4" type="video/mp4">
           </video>
         </div>
-          <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Add Your Hero Animal</h4><p>File → Place → select your main animal (e.g. the pug). Resize using corner handles (hold Shift to keep proportions). Press Enter. This layer goes above the background.</p></div></div>
+      </div>
+
+      <!-- SLIDE 12: Step 03 - Hero + Background Removal (steps 3-4 + video) -->
+      <div class="slide" data-slide="12">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">ADD YOUR HERO ANIMAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Add Your Hero Animal</h4><p>File → Place → select your main animal (e.g. the pug). Resize using corner handles (hold Shift). Press Enter. This layer goes above the background.</p></div></div>
           <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Remove the Background from Your Character</h4><p>Select the animal layer → Image → Remove Background. Or use the Magic Wand tool: click the background area → press Delete. Clean up any remaining edges.</p></div></div>
-        <p class="video-label">▶ Watch first — How to remove the background from your hero image</p>
+        </div>
+        <p class="video-label">▶ Watch — How to remove the background from your hero image</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip4_step4_herobackgroundremove.mp4" type="video/mp4">
           </video>
         </div>
-          <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Add More Animals &amp; Create Depth</h4><p>Place the parrot and hamster. Arrange them so the largest animal appears closest to the viewer. Reorder layers in the Layers panel to control what appears in front. Try overlapping them slightly for a fun, chaotic feel.</p></div></div>
+        <div class="tip-box" style="margin-top:0.5rem;">
+          <div class="tip-header">🪜 CAN'T REMOVE THE BACKGROUND?</div>
+          <ul>
+            <li>Try: <strong>Image → Remove Background</strong> (works best with clear contrast)</li>
+            <li>Or: Select the <strong>Magic Wand tool</strong> → click background area → press Delete</li>
+            <li>Or: Use images from the assets folder that already have a plain background</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SLIDE 13: Step 03 - More animals + Save (steps 5-6 + video) -->
+      <div class="slide" data-slide="13">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">ADD MORE ANIMALS &amp; SAVE</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Add More Animals &amp; Create Depth</h4><p>Place the parrot and hamster. Arrange them so the largest animal appears closest to the viewer. Reorder layers to control what appears in front. Try overlapping them slightly for a fun, chaotic feel.</p></div></div>
           <div class="step"><div class="step-num">6</div><div class="step-content"><h4>Save Your Progress</h4><p>File → Save As → choose Photopea PSD format. Wait for the white saving bar to fully disappear before doing anything else. Save regularly!</p></div></div>
-        <p class="video-label">▶ Watch first — How to check your work and save</p>
+        </div>
+        <p class="video-label">▶ Watch — How to check your work and save</p>
         <div class="video-wrap">
           <video controls>
             <source src="PosterClip5_step5_checkyourwork.mp4" type="video/mp4">
           </video>
         </div>
-        </div>
+      </div>
 
-        <h3 style="margin-top:1.2rem;">Build Checklist</h3>
+      <!-- SLIDE 14: Step 03 - Build Checklist + Extension + Save Warning -->
+      <div class="slide" data-slide="14">
+        <div class="step-header">
+          <span class="step-badge">STEP 03</span>
+          <span class="step-title">BUILD CHECKLIST</span>
+        </div>
         <div class="checklist">
           <div class="check-item"><input type="checkbox" id="s2_b1"><label for="s2_b1">🖼 Canvas created using File → New → Print → A4, named correctly <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_b2"><label for="s2_b2">🏙 City background placed and filling the full canvas — at the bottom of the layers <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_b3"><label for="s2_b3">🐾 Main animal character placed above the background layer <span class="check-diff diff-all">ALL</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_b4"><label for="s2_b4">✂ Background removed from the main animal image <span class="check-diff diff-all">ALL</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s2_b5"><label for="s2_b5">🎪 At least one prop or second animal placed and sized for perspective (larger = closer) <span class="check-diff diff-most">MOST</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s2_b6"><label for="s2_b6">🎨 Used Image → Adjustments → Hue/Saturation to boost warmth — increase yellow and orange tones in the background <span class="check-diff diff-most">MOST</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s2_b7"><label for="s2_b7">✨ Applied a blend mode (e.g. Overlay or Soft Light) to brighten and saturate a layer <span class="check-diff diff-some">SOME</span></label></div>
-          <div class="check-item"><input type="checkbox" id="s2_b8"><label for="s2_b8">🌟 All three animals (pug, parrot, hamster) placed and arranged in an energetic, overlapping composition <span class="check-diff diff-some">SOME</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s2_b5"><label for="s2_b5">🎪 At least one prop or second animal placed and sized for perspective <span class="check-diff diff-most">MOST</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s2_b6"><label for="s2_b6">🎨 Used Hue/Saturation to boost warmth — increase yellow and orange tones <span class="check-diff diff-most">MOST</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s2_b7"><label for="s2_b7">✨ Applied a blend mode (Overlay or Soft Light) to brighten and saturate a layer <span class="check-diff diff-some">SOME</span></label></div>
+          <div class="check-item"><input type="checkbox" id="s2_b8"><label for="s2_b8">🌟 All three animals placed and arranged in an energetic, overlapping composition <span class="check-diff diff-some">SOME</span></label></div>
           <div class="check-item"><input type="checkbox" id="s2_b9"><label for="s2_b9">💾 PSD file saved — saving bar fully completed before closing <span class="check-diff diff-all">ALL</span></label></div>
         </div>
-
-        <div class="tip-box">
-          <div class="tip-header">🪜 SUPPORT — CAN'T REMOVE THE BACKGROUND?</div>
-          <ul>
-            <li>Try: <strong>Image → Remove Background</strong> (works best with clear contrast between subject and background)</li>
-            <li>Or: Select the <strong>Magic Wand tool</strong> → click the background area → press Delete</li>
-            <li>Or: Look in the <strong>Movie Poster Assets</strong> folder for images that already have a plain or solid-colour background — these are much easier to remove</li>
-          </ul>
-        </div>
-
-        <div class="extend">
+        <div class="extend" style="margin-top:1rem;">
           <div class="extend-header">🌟 EXTENSION — BRING THE ENERGY</div>
           <ul>
-            <li>Add a <strong>warm gradient overlay</strong>: create a new layer, use the Gradient tool (yellow-orange at the top, transparent at the bottom), set blend mode to "Screen" at 30% opacity. This gives the scene a warm, sunny, cinematic glow.</li>
-            <li>Try <strong>rotating one of the animals slightly</strong> (using the Transform tool) to make the composition feel more chaotic and fun — like everyone's running in different directions.</li>
-            <li>Add a <strong>drop shadow</strong> to each animal layer (double-click the layer → Layer Style → Drop Shadow). This grounds the animals in the scene and makes them feel like they belong in the environment.</li>
+            <li>Add a <strong>warm gradient overlay</strong>: new layer, Gradient tool (yellow-orange top, transparent bottom), blend mode "Screen" at 30% opacity.</li>
+            <li><strong>Rotate one animal slightly</strong> using the Transform tool to make the composition feel more chaotic and fun.</li>
+            <li>Add a <strong>drop shadow</strong> to each animal layer (double-click layer → Layer Style → Drop Shadow) to ground them in the scene.</li>
           </ul>
         </div>
-
-        <p class="save-warning">⚠ WARNING: Save your PSD file BEFORE closing Photopea. Wait for the white saving bar to disappear completely!</p>
+        <p class="save-warning">⚠ SAVE your PSD file BEFORE closing Photopea. Wait for the white saving bar to disappear completely!</p>
       </div>
+
+    </div><!-- /s2_slides -->
+
+    <!-- Slide nav -->
+    <div class="slide-nav">
+      <button class="nav-prev" id="s2_prev" onclick="changeSlide(2,-1)" disabled>← BACK</button>
+      <span class="nav-center" id="s2_nav_label">Scenario 2 · Slide 1 of 14</span>
+      <button class="nav-next" id="s2_next" onclick="changeSlide(2,1)">NEXT →</button>
     </div>
 
   </div>
   <!-- /SCENARIO 2 -->
 
-</div><!-- /container -->
+</div><!-- /workbook -->
 
 <script>
+// ─── SLIDE STATE ───────────────────────────────────────────
+const TOTAL_SLIDES = 14;
+const state = { 1: 1, 2: 1 };
+
+function changeSlide(scenario, dir) {
+  const current = state[scenario];
+  const next = current + dir;
+  if (next < 1 || next > TOTAL_SLIDES) return;
+
+  const container = document.getElementById('s' + scenario + '_slides');
+  const slides = container.querySelectorAll('.slide');
+
+  slides.forEach(s => s.classList.remove('active'));
+  slides[next - 1].classList.add('active');
+
+  state[scenario] = next;
+  updateNav(scenario);
+
+  // Scroll to top of workbook
+  document.querySelector('.workbook').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateNav(scenario) {
+  const current = state[scenario];
+  const pct = Math.round((current / TOTAL_SLIDES) * 100);
+
+  document.getElementById('s' + scenario + '_progress').style.width = pct + '%';
+  document.getElementById('s' + scenario + '_count').textContent = current + ' / ' + TOTAL_SLIDES;
+  document.getElementById('s' + scenario + '_nav_label').textContent = 'Scenario ' + scenario + ' · Slide ' + current + ' of ' + TOTAL_SLIDES;
+
+  const prev = document.getElementById('s' + scenario + '_prev');
+  const next = document.getElementById('s' + scenario + '_next');
+  prev.disabled = current === 1;
+  next.disabled = current === TOTAL_SLIDES;
+  next.textContent = current === TOTAL_SLIDES ? '✓ DONE' : 'NEXT →';
+}
+
+// ─── SCENARIO SWITCHER ─────────────────────────────────────
 function switchScenario(n) {
-  // Update panels
   document.querySelectorAll('.scenario-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('scenario' + n).classList.add('active');
-  // Update tabs
   document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab' + n).classList.add('active');
-  // Update nav
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  // Scroll to top of content
-  window.scrollTo({ top: document.querySelector('.scenario-switcher').offsetTop - 60, behavior: 'smooth' });
+  document.querySelector('.workbook').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+// ─── LOCALSTORAGE PERSISTENCE ──────────────────────────────
+const PERSIST_IDS = [
+  's1_target','s1_attract','s1_colours','s1_elements','s1_extend1','s1_extend2',
+  's2_target','s2_attract','s2_colours','s2_elements','s2_extend1','s2_extend2'
+];
+
+function showSaved(id) {
+  const ind = document.getElementById(id + '_saved');
+  if (!ind) return;
+  ind.classList.add('visible');
+  setTimeout(() => ind.classList.remove('visible'), 2000);
+}
+
+function saveField(id, value) {
+  try { localStorage.setItem('poster_wb_' + id, value); } catch(e) {}
+  showSaved(id);
+}
+
+function loadAll() {
+  PERSIST_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    try {
+      const saved = localStorage.getItem('poster_wb_' + id);
+      if (saved !== null) el.value = saved;
+    } catch(e) {}
+
+    // Attach listener
+    el.addEventListener('input', () => saveField(id, el.value));
+  });
+}
+
+// ─── INIT ──────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadAll();
+  updateNav(1);
+  updateNav(2);
+});
 </script>
 </body>
 </html>
