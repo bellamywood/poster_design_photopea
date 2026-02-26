@@ -1097,31 +1097,109 @@ function switchScenario(n) {
 }
 
 // ─── LOCALSTORAGE PERSISTENCE ──────────────────────────────
-const PERSIST_IDS = [
+// ─── AUTO-SAVE + RESTORE (localStorage + cookie backup) ─────
+const STORE_KEY = 'poster_wb_store_v1';
+const COOKIE_NAME = 'poster_wb_store_v1';
+
+const FIELD_IDS = [
+  // Scenario 1: design plan fields
   's1_target','s1_attract','s1_colours','s1_elements','s1_extend1','s1_extend2',
-  's2_target','s2_attract','s2_colours','s2_elements','s2_extend1','s2_extend2'
+  // Scenario 1: checklists (assets + build)
+  's1_c1','s1_c2','s1_c3','s1_c4','s1_c5','s1_c6',
+  's1_b1','s1_b2','s1_b3','s1_b4','s1_b5','s1_b6','s1_b7','s1_b8','s1_b9',
+
+  // Scenario 2: design plan fields
+  's2_target','s2_attract','s2_colours','s2_elements','s2_extend1','s2_extend2',
+  // Scenario 2: checklists (assets + build)
+  's2_c1','s2_c2','s2_c3','s2_c4','s2_c5','s2_c6',
+  's2_b1','s2_b2','s2_b3','s2_b4','s2_b5','s2_b6','s2_b7','s2_b8','s2_b9'
 ];
 
 function showSaved(id) {
   const ind = document.getElementById(id + '_saved');
   if (!ind) return;
   ind.classList.add('visible');
-  setTimeout(() => ind.classList.remove('visible'), 2000);
+  setTimeout(() => ind.classList.remove('visible'), 900);
+}
+
+// Cookie helpers (backup only; cookies are small, so localStorage is primary)
+function setCookie(name, value, maxAgeSeconds = 31536000) { // 1 year
+  document.cookie =
+    encodeURIComponent(name) + '=' + encodeURIComponent(value) +
+    '; Max-Age=' + maxAgeSeconds + '; Path=/; SameSite=Lax';
+}
+
+function getCookie(name) {
+  const target = encodeURIComponent(name) + '=';
+  const parts = document.cookie.split(';').map(p => p.trim());
+  for (const part of parts) {
+    if (part.startsWith(target)) return decodeURIComponent(part.slice(target.length));
+  }
+  return null;
+}
+
+function loadStore() {
+  // 1) localStorage
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+
+  // 2) cookie fallback
+  try {
+    const raw = getCookie(COOKIE_NAME);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+
+  return {};
+}
+
+function saveStore(store) {
+  const raw = JSON.stringify(store);
+
+  // Primary: localStorage
+  try { localStorage.setItem(STORE_KEY, raw); } catch (e) {}
+
+  // Backup: cookie (may silently fail if too large)
+  try { setCookie(COOKIE_NAME, raw); } catch (e) {}
+}
+
+function readControl(el) {
+  if (!el) return null;
+  if (el.type === 'checkbox') return !!el.checked;
+  return el.value ?? '';
+}
+
+function writeControl(el, value) {
+  if (!el) return;
+  if (el.type === 'checkbox') el.checked = !!value;
+  else el.value = (typeof value === 'string') ? value : (value ?? '');
 }
 
 function saveField(id, value) {
-  try { localStorage.setItem('poster_wb_' + id, value); } catch(e) {}
+  const store = loadStore();
+  store[id] = value;
+  saveStore(store);
   showSaved(id);
 }
 
 function loadAll() {
-  PERSIST_IDS.forEach(id => {
+  const store = loadStore();
+
+  FIELD_IDS.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    try {
-      const saved = localStorage.getItem('poster_wb_' + id);
-      if (saved !== null) el.value = saved;
-    } catch(e) {}
+
+    // Restore
+    if (Object.prototype.hasOwnProperty.call(store, id)) {
+      writeControl(el, store[id]);
+    }
+
+    // Attach listener (checkboxes use change; text uses input)
+    const evt = (el.type === 'checkbox') ? 'change' : 'input';
+    el.addEventListener(evt, () => saveField(id, readControl(el)));
+  });
+}
 
     // Attach listener
     el.addEventListener('input', () => saveField(id, el.value));
