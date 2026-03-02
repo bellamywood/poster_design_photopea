@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie Poster Workbook — Canva · Year 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d070;
+    --dark: #0c0c0e;
+    --mid: #14141a;
+    --card: #18181f;
+    --border: #28282f;
+    --text: #e8e0d0;
+    --muted: #7a7060;
+    --all: #27ae60;
+    --most: #c9a84c;
+    --some: #c0392b;
+    --canva: #7d2ae8;
+    --canva-light: #a855f7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── FILM STRIP ── */
+  .filmstrip {
+    height: 36px;
+    background: #0a0a0a;
+    border-bottom: 2px solid var(--canva-light);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    overflow: hidden;
+  }
+  .filmstrip-hole {
+    width: 24px; height: 18px; min-width: 24px;
+    background: var(--dark);
+    border-radius: 3px;
+    border: 1px solid #222;
+  }
+  .filmstrip-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--canva-light);
+    opacity: 0.8;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+
+  /* ── LAYOUT ── */
+  .workbook {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ── SCENARIO INTRO ── */
+  .scenario-intro {
+    padding: 48px 0 36px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .scenario-genre-tag {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .scenario-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #fff;
+    margin-bottom: 16px;
+    text-shadow: 0 0 80px rgba(168,85,247,0.25);
+  }
+  .scenario-tagline {
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--canva-light);
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+  .scenario-brief {
+    font-size: 0.88rem;
+    color: var(--text);
+    opacity: 0.7;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 28px;
+  }
+  .mood-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 500px;
+  }
+  .mood-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .mood-card-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mood-card ul {
+    list-style: none;
+    font-size: 0.8rem;
+    color: var(--text);
+    opacity: 0.75;
+    line-height: 1.7;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 2px;
+    height: 3px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--canva-light);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* ── SLIDES ── */
+  .slide { display: none; }
+  .slide.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── STEP HEADER ── */
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .step-num-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--canva-light);
+    opacity: 0.25;
+    min-width: 48px;
+  }
+  .step-meta {}
+  .step-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    color: #fff;
+    line-height: 1;
+  }
+  .anatomy-tag {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: rgba(168,85,247,0.12);
+    border: 1px solid rgba(168,85,247,0.3);
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ── OBJECTIVES ── */
+  .objectives-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--canva-light);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+  .objectives-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .obj-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .obj-row:last-child { margin-bottom: 0; }
+  .tier {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    min-width: 44px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .tier-all  { background: rgba(39,174,96,0.15);  color: #5ddf8a; border: 1px solid rgba(39,174,96,0.35); }
+  .tier-most { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.35); }
+  .tier-some { background: rgba(192,57,43,0.12);  color: #e07060; border: 1px solid rgba(192,57,43,0.3); }
+
+  /* ── CANVA PATH ── */
+  .canva-path {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.78rem;
+    color: var(--canva-light);
+    background: rgba(168,85,247,0.08);
+    border: 1px solid rgba(168,85,247,0.25);
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px 1px;
+    white-space: nowrap;
+  }
+  .canva-path::before { content: '▸ '; font-size: 0.65rem; opacity: 0.7; }
+
+  /* ── VIDEO PLACEHOLDER ── */
+  .video-placeholder {
+    background: var(--card);
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 32px 24px;
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+  }
+  .video-placeholder::before {
+    content: '▶';
+    display: block;
+    font-size: 2rem;
+    color: var(--canva-light);
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+  .video-placeholder-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  /* ── INSTRUCTION STEPS ── */
+  .instruction-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+  .instruction-step:last-child { margin-bottom: 0; }
+  .instruction-num {
+    width: 28px; height: 28px; min-width: 28px;
+    border-radius: 50%;
+    background: rgba(168,85,247,0.1);
+    border: 1px solid rgba(168,85,247,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    color: var(--canva-light);
+    margin-top: 2px;
+  }
+  .instruction-content h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .instruction-content p {
+    font-size: 0.82rem;
+    color: var(--text);
+    opacity: 0.75;
+    line-height: 1.6;
+  }
+  .instruction-content code {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    background: rgba(168,85,247,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--canva-light);
+  }
+
+  /* ── SUPPORT / EXTENSION BLOCKS ── */
+  .support-block, .extension-block {
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .support-block {
+    background: rgba(74,144,226,0.07);
+    border: 1px solid rgba(74,144,226,0.2);
+  }
+  .extension-block {
+    background: rgba(168,85,247,0.06);
+    border: 1px solid rgba(168,85,247,0.2);
+  }
+  .support-block-title, .extension-block-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .support-block-title { color: #5ba3e8; }
+  .extension-block-title { color: var(--canva-light); }
+  .support-block ul, .extension-block ul { list-style: none; padding: 0; }
+  .support-block li, .extension-block li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 5px;
+    color: var(--text);
+    opacity: 0.8;
+  }
+  .support-block li::before { content: '→'; position: absolute; left: 0; color: #5ba3e8; }
+  .extension-block li::before { content: '★'; position: absolute; left: 0; color: var(--canva-light); font-size: 0.7rem; top: 2px; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; margin: 16px 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.83rem;
+    line-height: 1.5;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { background: rgba(255,255,255,0.02); }
+  .checklist li.checked { opacity: 0.5; }
+  .check-icon {
+    min-width: 18px;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    color: transparent;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .checklist li.checked .check-icon {
+    background: rgba(39,174,96,0.15);
+    border-color: var(--all);
+    color: var(--all);
+  }
+  .checklist-item-text { flex: 1; }
+
+  /* ── ASSET GRID ── */
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  @media (min-width: 600px) { .asset-grid { grid-template-columns: repeat(4, 1fr); } }
+  .asset-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 12px;
+  }
+  .asset-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+  .asset-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .asset-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .asset-hints { list-style: none; font-size: 0.72rem; color: var(--text); opacity: 0.6; line-height: 1.7; }
+  .asset-hints li::before { content: '→ '; }
+
+  /* ── FORM FIELDS ── */
+  .form-field { margin-bottom: 20px; }
+  .form-field label {
+    display: block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--canva-light);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-field input, .form-field textarea {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .form-field input:focus, .form-field textarea:focus {
+    border-color: rgba(168,85,247,0.5);
+  }
+  .form-field textarea { min-height: 90px; }
+  .save-indicator {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--all);
+    opacity: 0;
+    margin-top: 4px;
+    transition: opacity 0.3s;
+  }
+  .save-indicator.visible { opacity: 1; }
+
+  /* ── SAVE REMINDER ── */
+  .save-reminder {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(168,85,247,0.07);
+    border: 1px solid rgba(168,85,247,0.25);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 20px 0;
+    font-size: 0.82rem;
+  }
+  .save-reminder::before { content: '☁'; font-size: 1.1rem; flex-shrink: 0; color: var(--canva-light); }
+  .save-reminder strong { color: var(--canva-light); }
+  .save-reminder p { color: var(--text); opacity: 0.8; }
+
+  /* ── LINKS ── */
+  .resource-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; }
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 9px 16px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .resource-link:hover { border-color: var(--canva-light); color: var(--canva-light); }
+  .resource-link.primary {
+    background: rgba(168,85,247,0.1);
+    border-color: rgba(168,85,247,0.4);
+    color: var(--canva-light);
+  }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ── NAVIGATION ── */
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(12,12,14,0.97);
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+    backdrop-filter: blur(8px);
+  }
+  .nav-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    padding: 10px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--canva-light); color: var(--canva-light); }
+  .nav-btn.next {
+    background: rgba(168,85,247,0.1);
+    border-color: rgba(168,85,247,0.5);
+    color: var(--canva-light);
+  }
+  .nav-btn.next:hover { background: rgba(168,85,247,0.2); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .nav-centre {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-align: center;
+  }
+  .nav-centre span { display: block; font-size: 0.7rem; color: var(--canva-light); opacity: 0.7; }
+
+  /* ── COMPLETION ── */
+  .completion-block { text-align: center; padding: 48px 20px; }
+  .completion-block .big-tick { font-size: 3rem; margin-bottom: 20px; }
+  .completion-block h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.08em;
+    color: var(--canva-light);
+    margin-bottom: 12px;
+  }
+  .completion-block p {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.7;
+    max-width: 400px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+  }
+
+  /* ── COLOUR PALETTE SWATCHES ── */
+  .palette-grid { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .palette-swatch {
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  /* ── TYPOGRAPHY EXAMPLE ── */
+  .type-example {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .type-genre {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    min-width: 70px;
+    text-transform: uppercase;
+  }
+  .type-demo { font-size: 1.3rem; font-weight: 700; flex: 1; }
+  .type-note { font-size: 0.75rem; color: var(--muted); max-width: 180px; }
+
+  /* ── INFO CALLOUT ── */
+  .info-callout {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: var(--text);
+    opacity: 0.85;
+  }
+  .info-callout strong { color: var(--canva-light); }
+</style>
+</head>
+<body>
+
+<!-- FILM STRIP -->
+<div class="filmstrip">
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <span class="filmstrip-label">CANVA · YEAR 8 · MOVIE POSTER WORKBOOK</span>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+</div>
+
+<div class="workbook">
+
+  <!-- INTRO -->
+  <div class="scenario-intro">
+    <span class="scenario-genre-tag">🎬 Movie Poster Project · Year 8 · Canva</span>
+    <h1 class="scenario-title">YOUR MOVIE<br>POSTER</h1>
+    <p class="scenario-tagline">"Design a poster that sells your film."</p>
+    <p class="scenario-brief">You have been commissioned to design a theatrical movie poster using Canva. Your film, your genre, your vision. Before you open Canva, read through your scenario brief carefully — it tells you the genre, mood, and target audience you are designing for. Every design decision you make should connect back to that brief.</p>
+    <div class="mood-grid">
+      <div class="mood-card">
+        <div class="mood-card-label">Your Genre</div>
+        <ul>
+          <li>Read your scenario brief</li>
+          <li>Note the film's mood</li>
+          <li>Identify the tone</li>
+          <li>Consider the audience</li>
+        </ul>
+      </div>
+      <div class="mood-card">
+        <div class="mood-card-label">Design Direction</div>
+        <ul>
+          <li>Genre-appropriate colours</li>
+          <li>Matching font style</li>
+          <li>Suitable imagery</li>
+          <li>Targeted layout</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-label">
+    <span id="progress-label">SLIDE 1 OF 25</span>
+    <span id="progress-count">1 / 25</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-bar" style="width:4%"></div>
+  </div>
+
+  <!-- ── STEP 01: DESIGN PLAN ── -->
+
+  <!-- Slide 1 -->
+  <div class="slide active" data-slide="1">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01</div>
+        <div class="step-title">MY MOVIE PLAN</div>
+      </div>
+    </div>
+    <p style="font-size:0.88rem;opacity:0.75;line-height:1.7;margin-bottom:20px;">Before you start designing, you need a plan. Every professional designer starts here. Watch the video below — it walks you through what your design plan needs to include and why planning matters in real-world design work.</p>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch First — How to Plan Your Poster</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid1 - planning the poster.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide" data-slide="2">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Key Objectives</div>
+        <div class="step-title">WHAT ARE YOU AIMING FOR?</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Identify your target audience and explain how your design choices will attract them</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Plan a colour palette and composition that fits the genre</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Justify every design decision using media vocabulary</div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;line-height:1.7;">Read the objectives above carefully. Use them to guide your design plan on the next slide. Try to push yourself towards the <strong style="color:var(--canva-light)">MOST</strong> level.</p>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide" data-slide="3">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Your Design Plan</div>
+        <div class="step-title">FILL IN YOUR PLAN</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.6;margin-bottom:20px;">Your answers are saved automatically as you type.</p>
+    <div class="form-field">
+      <label>Your Film Title &amp; Genre</label>
+      <input type="text" id="film_title" placeholder="e.g. Galactic Rift — Sci-Fi Thriller" oninput="autoSave('film_title',this.value,'film_title_saved')">
+      <div class="save-indicator" id="film_title_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Your Target Audience</label>
+      <input type="text" id="audience" placeholder="Who is this poster aimed at? Age, interests, genre fans..." oninput="autoSave('audience',this.value,'audience_saved')">
+      <div class="save-indicator" id="audience_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Why Will They Be Attracted to This Poster?</label>
+      <textarea id="attracted" placeholder="Think about what grabs their attention — imagery, colour, mood..." oninput="autoSave('attracted',this.value,'attracted_saved')"></textarea>
+      <div class="save-indicator" id="attracted_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Colour Palette (Name 3–4 Colours and WHY)</label>
+      <textarea id="palette" placeholder="e.g. Deep blue — suggests cold space and danger..." oninput="autoSave('palette',this.value,'palette_saved')"></textarea>
+      <div class="save-indicator" id="palette_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Key Design Elements You Will Include</label>
+      <textarea id="elements" placeholder="Describe your main image, composition, mood..." oninput="autoSave('elements',this.value,'elements_saved')"></textarea>
+      <div class="save-indicator" id="elements_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide" data-slide="4">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Extension</div>
+        <div class="step-title">DESIGN RESEARCH</div>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Finished Early? — Design Research</div>
+      <ul>
+        <li>Find two real movie posters in the same genre as your film. What design techniques do they use to signal the genre and attract the audience?</li>
+        <li>Write two sentences comparing their composition choices to your own plan.</li>
+      </ul>
+    </div>
+    <div class="form-field">
+      <label>Extension Research Notes</label>
+      <textarea id="ext_research" placeholder="Your research notes..." oninput="autoSave('ext_research',this.value,'ext_research_saved')"></textarea>
+      <div class="save-indicator" id="ext_research_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 02: COLLECT ASSETS ── -->
+
+  <!-- Slide 5 -->
+  <div class="slide" data-slide="5">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02</div>
+        <div class="step-title">COLLECT YOUR ASSETS</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Find and save a background image and at least one character or subject image</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Collect a complete set of images including objects and props</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Select images with intention, explaining how each one serves the poster's mood</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch First — How to Collect Your Assets</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid2 - asset collection.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 6 -->
+  <div class="slide" data-slide="6">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — What to Find</div>
+        <div class="step-title">YOUR ASSETS</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.65;margin-bottom:16px;">Create a folder called <code style="font-family:monospace;background:rgba(168,85,247,0.1);padding:2px 6px;border-radius:3px;color:var(--canva-light)">assets</code> in your Year 8 Computing folder. Find and save these four types of image — choosing ones that match <em>your</em> genre and mood:</p>
+    <div class="asset-grid">
+      <div class="asset-card">
+        <span class="asset-icon">🖼</span>
+        <div class="asset-label">Background</div>
+        <div class="asset-desc">A scene that sets your film's world and fills the full canvas</div>
+        <ul class="asset-hints"><li>Matches your genre's mood</li><li>Dramatic lighting or atmosphere</li><li>Wide / landscape format</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🧑</span>
+        <div class="asset-label">Hero / Main Subject</div>
+        <div class="asset-desc">Your main character, creature, or subject — the visual focus</div>
+        <ul class="asset-hints"><li>Clear subject to cut out</li><li>Expressive or dramatic pose</li><li>Fits the genre's tone</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🎭</span>
+        <div class="asset-label">Objects / Props</div>
+        <div class="asset-desc">Supporting elements that hint at the story or genre</div>
+        <ul class="asset-hints"><li>Suggest action or setting</li><li>Add depth to the composition</li><li>Reinforce the mood</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🎬</span>
+        <div class="asset-label">Studio Logo</div>
+        <div class="asset-desc">A real studio logo as a transparent PNG</div>
+        <ul class="asset-hints"><li>Warner Bros, Universal</li><li>Paramount, A24, Pixar</li><li>Disney, DreamWorks</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide 7 -->
+  <div class="slide" data-slide="7">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — Find Your Images</div>
+        <div class="step-title">WHERE TO LOOK</div>
+      </div>
+    </div>
+    <div class="resource-links">
+      <a href="https://torchacademygatewaytrust-my.sharepoint.com/:f:/r/personal/jconnolly_garibaldischool_co_uk/Documents/Tyrone%27s%20Folder/Movie%20Poster%20Assets?csf=1&web=1&e=Suu1mV" target="_blank" class="resource-link primary">📁 Pre-Prepared Assets Folder</a>
+      <a href="https://www.pexels.com" target="_blank" class="resource-link">📷 Pexels — Free Images</a>
+      <a href="https://www.google.com/search?tbm=isch&tbs=il:cl" target="_blank" class="resource-link">🔍 Google Images (CC Filter)</a>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.65;margin-bottom:16px;">Tick each item off as you save it to your assets folder:</p>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🖼 Background saved — suits your film's genre and fills the canvas <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🧑 Main subject / hero character saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🎭 At least one prop or object saved that fits your genre <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🎬 Studio logo saved as a transparent PNG <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">All images are royalty-free (Pexels or Google with Creative Commons filter) <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">A second character or extra element saved to add depth <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+    </ul>
+  </div>
+
+  <!-- Slide 8 -->
+  <div class="slide" data-slide="8">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — Extension</div>
+        <div class="step-title">THINK LIKE A DESIGNER</div>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Support — Finding Your Images</div>
+      <ul>
+        <li>Open the Movie Poster Assets folder your teacher has shared with you</li>
+        <li>Subfolders are organised: backgrounds, characters, objects, logos</li>
+        <li>Pick images that match <em>your</em> scenario's mood and genre</li>
+        <li>You can also search for images directly inside Canva using the <strong>Elements</strong> or <strong>Photos</strong> tabs</li>
+      </ul>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Think Like a Designer</div>
+      <ul>
+        <li>For each image you collect, write one sentence explaining <em>why</em> it serves the poster — not just what it shows, but what feeling it communicates.</li>
+        <li>Find two versions of a similar image and explain which you chose and why.</li>
+      </ul>
+    </div>
+    <div class="form-field">
+      <label>Extension — Image Selection Notes</label>
+      <textarea id="ext_images" placeholder="Your notes on why you chose each image..." oninput="autoSave('ext_images',this.value,'ext_images_saved')"></textarea>
+      <div class="save-indicator" id="ext_images_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 03: BUILD ── -->
+
+  <!-- Slide 9 -->
+  <div class="slide" data-slide="9">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03</div>
+        <div class="step-title">BUILD YOUR POSTER</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Open Canva, set up the canvas, upload and place your background and hero image</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Layer multiple images, remove backgrounds, and adjust sizes for depth</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Use image adjustments and filters for a cinematic, unified result</div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;margin-bottom:16px;">Open Canva before moving on. Keep this workbook open in a separate tab so you can follow along step by step.</p>
+    <div class="resource-links">
+      <a href="https://www.canva.com" target="_blank" class="resource-link primary">▶ Open Canva</a>
+    </div>
+    <div class="info-callout" style="margin-top:16px;">
+      <strong>Important:</strong> Canva auto-saves your work as you go — you'll see a "Saving…" message appear in the top bar. You don't need to manually save, but make sure you're signed in to your school account so nothing is lost.
+    </div>
+  </div>
+
+  <!-- Slide 10 -->
+  <div class="slide" data-slide="10">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Canvas &amp; Background</div>
+        <div class="step-title">SET UP &amp; PLACE BACKGROUND</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Create Your Canvas</h4>
+        <p>In Canva, click <strong>Create a design</strong> → search for <strong>Poster</strong> and select <em>A4 Portrait</em> (or choose <em>Custom size</em> and enter 594mm × 841mm for A4). This gives you a professional portrait canvas. Name your design at the top — something like <code>My Movie Poster</code>.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Upload and Place Your Background</h4>
+        <p>Click the <strong>Uploads</strong> tab in the left panel → <strong>Upload files</strong> → select your background image. Once uploaded, click it or drag it onto the canvas. To make it fill the whole canvas, drag the corner handles out to the edges — you'll see purple guide lines appear when it snaps. Right-click → <strong>Set as background</strong> to lock it in place behind everything else.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Canvas Setup &amp; Background</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid3 - new file and adding background.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+  </div>
+
+  <!-- Slide 11 -->
+  <div class="slide" data-slide="11">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Hero Character</div>
+        <div class="step-title">PLACE &amp; CUT YOUR HERO</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Upload and Place Your Main Subject</h4>
+        <p>In the <strong>Uploads</strong> tab, upload your hero character or main subject. Click it to add it to the canvas. Resize by dragging the corner handles — hold <strong>Shift</strong> to keep proportions. Drag it to where you want it to sit in the composition. It will automatically appear as a new layer above the background.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">4</div>
+      <div class="instruction-content">
+        <h4>Remove the Background from Your Subject</h4>
+        <p>Select your hero image. In the toolbar at the top, click <strong>Edit image</strong> → then click <strong>BG Remover</strong>. Canva will automatically remove the background. If it makes any mistakes, use the <strong>Erase</strong> and <strong>Restore</strong> brushes to tidy up the edges. Click <strong>Apply</strong> when you're happy.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Uploading Images &amp; Removing Backgrounds</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid4 - removing background.mp4" type="video/mp4">
+      </video>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid5 - moving and resizing.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 BG Remover Not Working Well?</div>
+      <ul>
+        <li>The BG Remover works best when the subject is clearly separate from the background in colour</li>
+        <li>Use the <strong>Erase</strong> brush (in BG Remover) to remove any leftover background patches</li>
+        <li>Use the <strong>Restore</strong> brush to bring back any parts of your subject that got removed by accident</li>
+        <li>Adjust the brush size using the slider for precise edits around edges</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+  </div>
+
+  <!-- Slide 12 -->
+  <div class="slide" data-slide="12">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Depth &amp; Props</div>
+        <div class="step-title">ADD DEPTH &amp; OBJECTS</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">5</div>
+      <div class="instruction-content">
+        <h4>Add Props &amp; Create Depth</h4>
+        <p>Upload your props and supporting objects from the <strong>Uploads</strong> tab. Add them to the canvas one at a time. Size them so things closer to the viewer appear larger — this creates perspective. To control the order of layers (what's in front of what), right-click an element → <strong>Layer</strong> → <strong>Forward</strong> or <strong>Backward</strong>, or use the <strong>Position</strong> panel on the right.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding Props and Managing Layers</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid6 - adding props and layers.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+  </div>
+
+  <!-- Slide 13 — Build Checklist -->
+  <div class="slide" data-slide="13">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Checklist</div>
+        <div class="step-title">BUILD CHECKLIST</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.65;margin-bottom:12px;">Before moving on — tick everything you've completed:</p>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🖼 Canvas created as an A4 Poster and named <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🌄 Background uploaded, fills the full canvas, and set as background layer <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🧑 Main subject / hero uploaded and placed above the background <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">✂ Background removed from the subject using BG Remover <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🎭 At least one prop placed and sized for perspective <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">☁ Canva shows "All changes saved" in the top bar <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 04: HERO SHOT COMPOSITION ── -->
+
+  <!-- Slide 14 -->
+  <div class="slide" data-slide="14">
+    <div class="step-header">
+      <div class="step-num-badge">04</div>
+      <div class="step-meta">
+        <div class="step-label">Step 04</div>
+        <div class="step-title">HERO SHOT</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 1 — MAIN IMAGE / HERO SHOT</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>Hero Shot</strong> is the main image of your poster — it establishes character, tone, and story at a glance. In professional movie posters the hero is always positioned with purpose: where they sit in the frame, how large they are, what they face — all of this communicates meaning before a single word is read.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Position your hero character so they are clearly the main focus of the poster</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Use scale and placement to create drama — consider what the hero faces or where they look</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Apply a colour adjustment to your hero so they feel part of the scene</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Composing Your Hero Shot</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid7 - composing hero shot.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 15 -->
+  <div class="slide" data-slide="15">
+    <div class="step-header">
+      <div class="step-num-badge">04</div>
+      <div class="step-meta">
+        <div class="step-label">Step 04 — Techniques</div>
+        <div class="step-title">COMPOSING YOUR HERO</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Position for Drama</h4>
+        <p>Click and drag your hero to reposition them. Try placing them slightly off-centre — this is more cinematic than dead centre. Use the corner handles to resize. Canva's purple guide lines will help you align elements. Think about what the hero faces or where they look — this tells a story without words.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Match the Lighting with Image Adjustments</h4>
+        <p>Select your hero image → click <strong>Edit image</strong> in the top toolbar → go to <strong>Adjust</strong>. Use the <strong>Tint</strong> slider to shift the colour of your subject towards the overall tone of the background. Lower the <strong>Saturation</strong> slightly (around −10 to −20) for a more cinematic, filmic feel.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add a Drop Shadow (Extension)</h4>
+        <p>Select your hero → click <strong>Edit image</strong> → <strong>Shadows</strong>. Try the <strong>Drop</strong> shadow effect, reduce the blur and adjust the angle so light appears to come from above or to the side. This grounds your character in the scene and adds depth.</p>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Rule of Thirds</div>
+      <ul>
+        <li>In Canva: View → Show rulers and guides. The guide lines help you divide the canvas into thirds. Place your hero's eyes or face at one of the four intersection points — this is the professional rule of thirds.</li>
+        <li>You can also drag guide lines manually from the ruler edges.</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Hero is clearly the dominant visual focus of the poster <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Hero is positioned off-centre and creates a sense of drama <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tint or saturation adjusted on hero to match the scene's lighting <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Drop shadow applied to ground the hero in the scene <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">☁ Canva shows "All changes saved" <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 05: TITLE / TYPOGRAPHY ── -->
+
+  <!-- Slide 16 -->
+  <div class="slide" data-slide="16">
+    <div class="step-header">
+      <div class="step-num-badge">05</div>
+      <div class="step-meta">
+        <div class="step-label">Step 05</div>
+        <div class="step-title">TITLE &amp; TYPOGRAPHY</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 2 — TITLE / TYPOGRAPHY</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>font you choose signals the genre</strong> before anyone reads the words. A scratchy, cracked font says horror. A bold, blocky font says action. Clean metallic text says sci-fi. Rounded, playful letters say comedy or family. Your title needs to be readable from a distance and immediately communicate the mood of the film.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add the movie title in a font that suits your genre</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Adjust font size, colour, and spacing so the title dominates the poster</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Apply a text effect (shadow, glow, or lift) to elevate the title</div>
+    </div>
+    <div class="type-example">
+      <div class="type-genre">Sci-Fi</div>
+      <div class="type-demo" style="font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;">Impact · Bebas · Orbitron</div>
+      <div class="type-note">Bold, geometric, metallic</div>
+    </div>
+    <div class="type-example">
+      <div class="type-genre">Comedy</div>
+      <div class="type-demo" style="font-weight:900;color:var(--gold);">Rounded · Chunky · Fun</div>
+      <div class="type-note">Warm, playful, approachable</div>
+    </div>
+    <div class="type-example">
+      <div class="type-genre">Horror</div>
+      <div class="type-demo" style="font-style:italic;color:#e07060;">Serif · Distressed · Thin</div>
+      <div class="type-note">Unsettling, sharp, tense</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding and Styling Your Title in Canva</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid8 - adding title text.mp4" type="video/mp4">
+      </video>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid9 - font and text effects.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 17 -->
+  <div class="slide" data-slide="17">
+    <div class="step-header">
+      <div class="step-num-badge">05</div>
+      <div class="step-meta">
+        <div class="step-label">Step 05 — Techniques</div>
+        <div class="step-title">STYLING YOUR TITLE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Title Text</h4>
+        <p>Click <strong>Text</strong> in the left panel → click <strong>Add a heading</strong>. A text box appears — type your movie title in all capitals for impact. To change the font, click the font name in the top toolbar and search for a genre-appropriate font. Canva has thousands — try <em>Impact</em>, <em>Bebas Neue</em>, <em>Pacifico</em>, or search by style.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Size, Colour, and Position</h4>
+        <p>Make the title the largest text on the poster — drag the corners to resize, or type a large number into the font size box in the toolbar. Change the colour by clicking the colour swatch in the toolbar and choosing from the colour picker or entering a hex code. Place the title in the lower third of the poster — a classic theatrical convention.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add a Text Effect</h4>
+        <p>Select the title text box → click <strong>Effects</strong> in the top toolbar. Choose an effect that fits your genre: <strong>Shadow</strong> for drama and depth, <strong>Glow</strong> for sci-fi or fantasy, <strong>Lift</strong> for a bold 3D look, <strong>Neon</strong> for an electric feel. Adjust the intensity slider to keep it looking professional rather than overdone.</p>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Can't Find a Good Font?</div>
+      <ul>
+        <li>In the font search bar, type keywords like "bold", "condensed", "rounded", or "serif" to filter results</li>
+        <li>Canva labels some fonts as <em>Brand fonts</em> — any unlabelled fonts are free to use</li>
+        <li>Match the font style to your genre — don't use a playful, rounded font for a thriller</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Movie title added in a font that matches the genre <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Title is the largest text on the poster and clearly readable <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Title colour contrasts well against the background <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Text effect applied — shadow, glow, lift, or neon <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">☁ Canva shows "All changes saved" <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 06: TAGLINE ── -->
+
+  <!-- Slide 18 -->
+  <div class="slide" data-slide="18">
+    <div class="step-header">
+      <div class="step-num-badge">06</div>
+      <div class="step-meta">
+        <div class="step-label">Step 06</div>
+        <div class="step-title">TAGLINE</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 3 — TAGLINE</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>tagline</strong> is a short, punchy phrase that hooks the audience. It creates mystery, excitement, or a sense of stakes. Your tagline should have been given to you in your scenario brief — it creates an immediate feeling in the viewer's mind and makes them want to see the film.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add the tagline in a smaller font, clearly positioned near the title</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Style the tagline differently to the title — lighter weight, italic, or different colour</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Adjust letter spacing and opacity to give the tagline a professional, subtle quality</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding Your Tagline in Canva</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid10 - adding the tagline.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 19 -->
+  <div class="slide" data-slide="19">
+    <div class="step-header">
+      <div class="step-num-badge">06</div>
+      <div class="step-meta">
+        <div class="step-label">Step 06 — Techniques</div>
+        <div class="step-title">STYLING YOUR TAGLINE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Tagline Text</h4>
+        <p>Click <strong>Text</strong> → <strong>Add a subheading</strong>. Type your tagline from your scenario brief. Choose a lighter, thinner font than your title — try a <em>Light</em> or <em>Italic</em> weight of your title font, or a different font entirely. The tagline should feel cinematic and understated next to the bold title.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Size, Position, and Alignment</h4>
+        <p>Make the tagline noticeably smaller — roughly a third of the title's size. Position it <em>above</em> the title or between the hero image and the title. Use the alignment tool in the top toolbar to centre the text on the canvas for a professional look.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Adjust Spacing and Opacity</h4>
+        <p>With the tagline text selected, click <strong>Spacing</strong> in the top toolbar and increase <strong>Letter spacing</strong> to around 5–8 for a cinematic, wide-set look. Then click the <strong>Transparency</strong> icon (the checkerboard square in the toolbar) and reduce opacity to around 75–85% so it sits subtly behind the title.</p>
+      </div>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tagline added and clearly readable <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tagline font is visually distinct from the title — lighter, smaller, italic <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Letter spacing adjusted and opacity reduced for a cinematic look <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">☁ Canva shows "All changes saved" <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 07: COLOUR PALETTE ── -->
+
+  <!-- Slide 20 -->
+  <div class="slide" data-slide="20">
+    <div class="step-header">
+      <div class="step-num-badge">07</div>
+      <div class="step-meta">
+        <div class="step-label">Step 07</div>
+        <div class="step-title">COLOUR PALETTE</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 4 — COLOUR PALETTE</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      <strong>Colour communicates genre instantly.</strong> Dark blues and greens suggest thriller and danger. Warm yellows and oranges suggest comedy and warmth. Washed-out tones suggest dystopia. Bright, saturated primaries suggest family adventure. Look at your genre and choose colours that immediately signal the right mood to your audience.
+    </div>
+    <div style="margin-bottom:8px;font-family:'Courier Prime',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--canva-light);text-transform:uppercase;">Genre Colour Examples</div>
+    <div class="palette-grid">
+      <div class="palette-swatch" style="background:#1a237e;color:#fff;">Sci-Fi — Deep Blue</div>
+      <div class="palette-swatch" style="background:#f57f17;color:#000;">Comedy — Warm Gold</div>
+      <div class="palette-swatch" style="background:#1b0000;color:#e07060;">Horror — Blood Red</div>
+      <div class="palette-swatch" style="background:#1b5e20;color:#aed581;">Action — Dark Green</div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Use image adjustments to shift your background towards your genre's colour range</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Apply a colour overlay or tinted shape to unify the mood across the whole poster</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Use Canva's filters on multiple layers to create a consistent, cinematic colour grade</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Applying Your Colour Palette in Canva</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid11 - colour and atmosphere.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 21 -->
+  <div class="slide" data-slide="21">
+    <div class="step-header">
+      <div class="step-num-badge">07</div>
+      <div class="step-meta">
+        <div class="step-label">Step 07 — Techniques</div>
+        <div class="step-title">COLOUR &amp; ATMOSPHERE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Adjust the Background Colour</h4>
+        <p>Click your background image → <strong>Edit image</strong> → <strong>Adjust</strong>. Use the <strong>Brightness</strong>, <strong>Contrast</strong>, and <strong>Saturation</strong> sliders to get the right feel. Reduce saturation slightly for a more cinematic, desaturated look. Use the <strong>Tint</strong> slider to shift the image towards your genre's dominant colour.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Apply a Colour Overlay for Atmosphere</h4>
+        <p>Add a rectangle that covers the whole canvas: click <strong>Elements</strong> → search "rectangle" → add one and resize it to fill the canvas. Set its colour to your genre's dominant shade. Then click the <strong>Transparency</strong> icon and reduce opacity to 15–30%. This adds a colour wash that unifies the whole poster. Use layer ordering to place it above the background but below your subject and text.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Apply a Cinematic Filter (Extension)</h4>
+        <p>Click your background image → <strong>Edit image</strong> → <strong>Filters</strong>. Browse the filter presets — options like <em>Film</em>, <em>Fade</em>, <em>Gritty</em>, or <em>Studio</em> can add a professional, filmic look. Adjust the intensity slider so it enhances without overwhelming.</p>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Vignette Effect</div>
+      <ul>
+        <li>Add an <strong>Ellipse</strong> shape from the Elements panel. Size it larger than the canvas and centre it. Colour it black. Reduce opacity to around 40–50%. This darkens the edges like a cinema lens — it's called a vignette, and it draws the eye to the centre of the poster.</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Background adjusted to match the genre's colour palette <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Colour overlay applied to unify the atmosphere <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Cinematic filter or vignette applied for depth <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">☁ Canva shows "All changes saved" <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 08 & 09: BILLING BLOCK + STUDIO LOGO ── -->
+
+  <!-- Slide 22 -->
+  <div class="slide" data-slide="22">
+    <div class="step-header">
+      <div class="step-num-badge">08</div>
+      <div class="step-meta">
+        <div class="step-label">Step 08</div>
+        <div class="step-title">BILLING BLOCK</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 5 — BILLING BLOCK</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>billing block</strong> is the small text at the bottom of every professional movie poster — the names of actors, the director, the production company, and the film rating. It's tiny and often barely readable, but it signals that this is a real, professionally produced film. You need one on your poster to make it look authentic.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add small credits text at the bottom of the poster — actors, director, studio, rating</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Style it in a narrow, condensed font at a small size so it looks authentic</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Include a film rating box (e.g. 12A, 15, PG) styled appropriately</div>
+    </div>
+  </div>
+
+  <!-- Slide 23 -->
+  <div class="slide" data-slide="23">
+    <div class="step-header">
+      <div class="step-num-badge">08 / 09</div>
+      <div class="step-meta">
+        <div class="step-label">Steps 08 &amp; 09 — Techniques</div>
+        <div class="step-title">BILLING BLOCK &amp; STUDIO LOGO</div>
+        <div class="anatomy-tag">ANATOMY ELEMENTS 5 &amp; 6</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Billing Block Text</h4>
+        <p>Click <strong>Text</strong> → <strong>Add a little bit of body text</strong>. A small text box appears — type your mock credits: e.g. <em>[ACTOR NAME] · [ACTOR NAME] · A TORCH FILMS PRODUCTION · Screenplay by [Your Name] · Directed by [Your Name] · Music by [Your Name] · © 2025 · Rated [U / PG / 12A]</em>. Stretch the text box to span the full width of the poster.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Style It Correctly</h4>
+        <p>Select a condensed or narrow font — search for "condensed" or "narrow" in the font panel. Set the size to around 6–9pt (very small). Set the colour to white or light grey, depending on your background. Click the <strong>Transparency</strong> icon and reduce opacity to 70–80% — this is intentionally hard to read. That's how real billing blocks look.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add the Studio Logo</h4>
+        <p>Click <strong>Uploads</strong> → upload your studio logo PNG. Click it to add it to the canvas. Place it in the bottom-left or bottom-right corner — roughly the same height as your billing block text. If the logo has a dark background that shouldn't be there, use <strong>Edit image → BG Remover</strong> to clean it up. Reduce opacity to around 80% so it blends naturally.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">4</div>
+      <div class="instruction-content">
+        <h4>Add a Film Rating Box (Extension)</h4>
+        <p>Click <strong>Elements</strong> → add a small rectangle. Fill it with white or a bold colour. Add a text layer on top with your rating (e.g. <strong>U</strong>, <strong>PG</strong>, <strong>12A</strong>) in a bold font. Group the rectangle and text together (select both → right-click → <strong>Group</strong>) and position the rating in the bottom right corner.</p>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Where to Find Studio Logos</div>
+      <ul>
+        <li>Check the pre-prepared assets folder — logos are already saved as transparent PNGs</li>
+        <li>Or search Google: "[Studio name] logo PNG transparent" — filter by Creative Commons</li>
+        <li>If the logo has a white background, use Canva's BG Remover to make it transparent</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Canva saves automatically.</strong> Check the top bar shows "All changes saved" before moving on.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Billing block added with names, studio, and year <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Billing block styled in a small condensed font with reduced opacity <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Studio logo uploaded and placed in the bottom corner <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Logo background removed and opacity adjusted for natural blending <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Film rating box added and grouped <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">☁ Canva shows "All changes saved" <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 10: FINAL EXPORT ── -->
+  <div class="slide" data-slide="24">
+    <div class="step-header">
+      <div class="step-num-badge">10</div>
+      <div class="step-meta">
+        <div class="step-label">Step 10 — Final</div>
+        <div class="step-title">FINAL CHECKLIST &amp; EXPORT</div>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;line-height:1.7;margin-bottom:20px;">Before exporting, check all six anatomy elements are present and your poster feels right for your target audience and genre.</p>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>1 — Hero Shot:</strong> Main subject is large, expressive, and visually dominant <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>2 — Title / Typography:</strong> Genre-appropriate font — clearly readable and well-positioned <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>3 — Tagline:</strong> Hook phrase placed and styled smaller than the title <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>4 — Colour Palette:</strong> Colours match the genre and create the right mood <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>5 — Billing Block:</strong> Small credits at the bottom <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>6 — Studio Logo:</strong> Transparent PNG in the bottom corner <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Poster clearly targets the intended audience and suits the genre <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Every design choice connects to the target audience and genre — you can justify it <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+    </ul>
+    <hr class="divider">
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Confirm Your Design is Saved</h4>
+        <p>Check the top bar of Canva shows <strong>"All changes saved"</strong>. Canva saves automatically but always confirm before downloading. If you see "Saving…" wait for it to finish.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Download as PDF or PNG</h4>
+        <p>Click <strong>Share</strong> (top right) → <strong>Download</strong>. Choose <strong>PDF Print</strong> for the highest quality — this is ideal for a poster. Alternatively, choose <strong>PNG</strong> for a high-resolution image file. Name it <code>movie_poster_YOURNAME</code> and save to your Year 8 Computing folder.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Downloading Your Final Poster from Canva</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="canva/Yr8 Poster canva vid12 - how to download the poster.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- Slide 25 — Completion -->
+  <div class="slide" data-slide="25">
+    <div class="completion-block">
+      <div class="big-tick">🎬</div>
+      <h2>POSTER COMPLETE</h2>
+      <p>You've built a full theatrical movie poster from scratch — design plan, assets, composition, typography, colour, billing block, and studio logo. That's the full anatomy of a real movie poster.</p>
+      <div class="resource-links" style="justify-content:center">
+        <a href="https://www.canva.com" target="_blank" class="resource-link primary">↩ Back to Canva</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /workbook -->
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <button class="nav-btn" id="btn-prev" onclick="prevSlide()">← Back</button>
+  <div class="nav-centre">
+    <span id="nav-slide-label">Slide 1 of 25</span>
+  </div>
+  <button class="nav-btn next" id="btn-next" onclick="nextSlide()">Next →</button>
+</div>
+
+<script>
+  const TOTAL_SLIDES = 25;
+  let currentSlide = 1;
+
+  function goToSlide(n) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector('.slide[data-slide="' + n + '"]');
+    if (target) target.classList.add('active');
+    currentSlide = n;
+    updateNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextSlide() {
+    if (currentSlide < TOTAL_SLIDES) goToSlide(currentSlide + 1);
+  }
+
+  function prevSlide() {
+    if (currentSlide > 1) goToSlide(currentSlide - 1);
+  }
+
+  function updateNav() {
+    document.getElementById('btn-prev').disabled = currentSlide <= 1;
+    document.getElementById('btn-next').disabled = currentSlide >= TOTAL_SLIDES;
+    document.getElementById('nav-slide-label').textContent = 'Slide ' + currentSlide + ' of ' + TOTAL_SLIDES;
+
+    const pct = ((currentSlide - 1) / (TOTAL_SLIDES - 1) * 100).toFixed(1) + '%';
+    document.getElementById('progress-bar').style.width = pct;
+    document.getElementById('progress-label').textContent = 'SLIDE ' + currentSlide + ' OF ' + TOTAL_SLIDES;
+    document.getElementById('progress-count').textContent = currentSlide + ' / ' + TOTAL_SLIDES;
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+
+  function autoSave(key, value, indicatorId) {
+    localStorage.setItem(key, value);
+    const ind = document.getElementById(indicatorId);
+    if (ind) {
+      ind.classList.add('visible');
+      clearTimeout(ind._timeout);
+      ind._timeout = setTimeout(() => ind.classList.remove('visible'), 2000);
+    }
+  }
+
+  function restoreData() {
+    document.querySelectorAll('[id]').forEach(el => {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        const val = localStorage.getItem(el.id);
+        if (val !== null) el.value = val;
+      }
+    });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+  });
+
+  restoreData();
+  updateNav();
+</script>
+</body>
+</html>
