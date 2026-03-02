@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie Poster Workbook — Photopea · Year 8</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d070;
+    --dark: #0c0c0e;
+    --mid: #14141a;
+    --card: #18181f;
+    --border: #28282f;
+    --text: #e8e0d0;
+    --muted: #7a7060;
+    --all: #27ae60;
+    --most: #c9a84c;
+    --some: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── FILM STRIP ── */
+  .filmstrip {
+    height: 36px;
+    background: #0a0a0a;
+    border-bottom: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    overflow: hidden;
+  }
+  .filmstrip-hole {
+    width: 24px; height: 18px; min-width: 24px;
+    background: var(--dark);
+    border-radius: 3px;
+    border: 1px solid #222;
+  }
+  .filmstrip-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+
+  /* ── SCENARIO TABS ── */
+  .scenario-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--mid);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .scenario-tab {
+    flex: 1;
+    padding: 14px 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .scenario-tab.active {
+    color: var(--gold);
+    border-bottom: 3px solid var(--gold);
+    background: rgba(201,168,76,0.04);
+  }
+  .scenario-tab:hover:not(.active) { color: var(--text); }
+
+  /* ── LAYOUT ── */
+  .workbook {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+
+  /* ── SCENARIO INTRO ── */
+  .scenario-intro {
+    padding: 48px 0 36px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .scenario-genre-tag {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .scenario-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #fff;
+    margin-bottom: 16px;
+    text-shadow: 0 0 80px rgba(201,168,76,0.2);
+  }
+  .scenario-tagline {
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+  .scenario-brief {
+    font-size: 0.88rem;
+    color: var(--text);
+    opacity: 0.7;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 28px;
+  }
+  .mood-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 500px;
+  }
+  .mood-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .mood-card-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mood-card ul {
+    list-style: none;
+    font-size: 0.8rem;
+    color: var(--text);
+    opacity: 0.75;
+    line-height: 1.7;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--border);
+    border-radius: 2px;
+    height: 3px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* ── SLIDES ── */
+  .slide { display: none; }
+  .slide.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── STEP HEADER ── */
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .step-num-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--gold);
+    opacity: 0.25;
+    min-width: 48px;
+  }
+  .step-meta {}
+  .step-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    color: #fff;
+    line-height: 1;
+  }
+  .anatomy-tag {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ── OBJECTIVES ── */
+  .objectives-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+  .objectives-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .obj-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .obj-row:last-child { margin-bottom: 0; }
+  .tier {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    min-width: 44px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .tier-all  { background: rgba(39,174,96,0.15);  color: #5ddf8a; border: 1px solid rgba(39,174,96,0.35); }
+  .tier-most { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.35); }
+  .tier-some { background: rgba(192,57,43,0.12);  color: #e07060; border: 1px solid rgba(192,57,43,0.3); }
+
+  /* ── VIDEO PLACEHOLDER ── */
+  .video-placeholder {
+    background: var(--card);
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 32px 24px;
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+  }
+  .video-placeholder::before {
+    content: '▶';
+    display: block;
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+  .video-placeholder-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .video-placeholder-sub {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .video-placeholder input[type=text] {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.7rem;
+    padding: 6px 12px;
+    width: 80%;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* ── INSTRUCTION STEPS ── */
+  .instruction-step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+  .instruction-step:last-child { margin-bottom: 0; }
+  .instruction-num {
+    width: 28px; height: 28px; min-width: 28px;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-top: 2px;
+  }
+  .instruction-content h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .instruction-content p {
+    font-size: 0.82rem;
+    color: var(--text);
+    opacity: 0.75;
+    line-height: 1.6;
+  }
+  .instruction-content code {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    background: rgba(201,168,76,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--gold-light);
+  }
+
+  /* ── SUPPORT / EXTENSION BLOCKS ── */
+  .support-block, .extension-block {
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .support-block {
+    background: rgba(74,144,226,0.07);
+    border: 1px solid rgba(74,144,226,0.2);
+  }
+  .extension-block {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+  .support-block-title, .extension-block-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .support-block-title { color: #5ba3e8; }
+  .extension-block-title { color: var(--gold); }
+  .support-block ul, .extension-block ul {
+    list-style: none;
+    padding: 0;
+  }
+  .support-block li, .extension-block li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 5px;
+    color: var(--text);
+    opacity: 0.8;
+  }
+  .support-block li::before { content: '→'; position: absolute; left: 0; color: #5ba3e8; }
+  .extension-block li::before { content: '★'; position: absolute; left: 0; color: var(--gold); font-size: 0.7rem; top: 2px; }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    margin: 16px 0;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.83rem;
+    line-height: 1.5;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:hover { background: rgba(255,255,255,0.02); }
+  .checklist li.checked { opacity: 0.5; }
+  .checklist li.checked .check-icon { color: var(--all); }
+  .check-icon {
+    min-width: 18px;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem;
+    color: transparent;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .checklist li.checked .check-icon {
+    background: rgba(39,174,96,0.15);
+    border-color: var(--all);
+    color: var(--all);
+  }
+  .checklist-item-text { flex: 1; }
+
+  /* ── ASSET GRID ── */
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  @media (min-width: 600px) { .asset-grid { grid-template-columns: repeat(4, 1fr); } }
+  .asset-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 12px;
+  }
+  .asset-icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+  .asset-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .asset-desc {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .asset-hints {
+    list-style: none;
+    font-size: 0.72rem;
+    color: var(--text);
+    opacity: 0.6;
+    line-height: 1.7;
+  }
+  .asset-hints li::before { content: '→ '; }
+
+  /* ── FORM FIELDS ── */
+  .form-field {
+    margin-bottom: 20px;
+  }
+  .form-field label {
+    display: block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-field input, .form-field textarea {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 12px 14px;
+    resize: vertical;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-field input:focus, .form-field textarea:focus {
+    border-color: rgba(201,168,76,0.5);
+  }
+  .form-field textarea { min-height: 90px; }
+  .save-indicator {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--all);
+    opacity: 0;
+    margin-top: 4px;
+    transition: opacity 0.3s;
+  }
+  .save-indicator.visible { opacity: 1; }
+
+  /* ── SAVE REMINDER ── */
+  .save-reminder {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(192,57,43,0.08);
+    border: 1px solid rgba(192,57,43,0.25);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 20px 0;
+    font-size: 0.82rem;
+  }
+  .save-reminder::before {
+    content: '💾';
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .save-reminder strong { color: #e07060; }
+  .save-reminder p { color: var(--text); opacity: 0.8; }
+
+  /* ── LINKS ── */
+  .resource-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 9px 16px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .resource-link:hover { border-color: var(--gold); color: var(--gold); }
+  .resource-link.primary {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.4);
+    color: var(--gold);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* ── NAVIGATION ── */
+  .nav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(12,12,14,0.97);
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+    backdrop-filter: blur(8px);
+  }
+  .nav-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    padding: 10px 24px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .nav-btn.next {
+    background: rgba(201,168,76,0.1);
+    border-color: rgba(201,168,76,0.5);
+    color: var(--gold);
+  }
+  .nav-btn.next:hover { background: rgba(201,168,76,0.2); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .nav-centre {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-align: center;
+  }
+  .nav-centre span { display: block; font-size: 0.7rem; color: var(--gold); opacity: 0.7; }
+
+  /* ── COMPLETION ── */
+  .completion-block {
+    text-align: center;
+    padding: 48px 20px;
+  }
+  .completion-block .big-tick {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  .completion-block h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .completion-block p {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.7;
+    max-width: 400px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+  }
+
+  /* ── COLOUR PALETTE SWATCHES ── */
+  .palette-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .palette-swatch {
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  /* ── TYPOGRAPHY EXAMPLE ── */
+  .type-example {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .type-genre {
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    min-width: 70px;
+    text-transform: uppercase;
+  }
+  .type-demo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    flex: 1;
+  }
+  .type-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    max-width: 180px;
+  }
+
+  /* ── SCENARIO PANELS ── */
+  .scenario-panel { display: none; }
+  .scenario-panel.active { display: block; }
+
+  /* ── INFO CALLOUT ── */
+  .info-callout {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    margin: 16px 0;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: var(--text);
+    opacity: 0.85;
+  }
+  .info-callout strong { color: var(--gold-light); }
+</style>
+</head>
+<body>
+
+<!-- FILM STRIP -->
+<div class="filmstrip">
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <span class="filmstrip-label">PHOTOPEA · YEAR 8 · MOVIE POSTER WORKBOOK</span>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+  <div class="filmstrip-hole"></div><div class="filmstrip-hole"></div><div class="filmstrip-hole"></div>
+</div>
+
+<!-- SCENARIO TABS -->
+<div class="scenario-tabs">
+  <button class="scenario-tab active" onclick="switchScenario(1)">
+    🚀 <span>Scenario 01 — Galactic Rift</span>
+  </button>
+  <button class="scenario-tab" onclick="switchScenario(2)">
+    🐾 <span>Scenario 02 — The Great Pet Escape</span>
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 01 — GALACTIC RIFT
+══════════════════════════════════════════ -->
+<div id="scenario-1" class="scenario-panel active">
+<div class="workbook">
+
+  <!-- INTRO -->
+  <div class="scenario-intro">
+    <span class="scenario-genre-tag">🚀 Sci-Fi Thriller · Scenario 01</span>
+    <h1 class="scenario-title">GALACTIC<br>RIFT</h1>
+    <p class="scenario-tagline">"A portal has opened. Not everyone will survive."</p>
+    <p class="scenario-brief">In 3025, Earth's greatest minds face catastrophe when a mysterious rift tears open in deep space, unleashing an unstoppable alien force. You have been commissioned to design the official theatrical movie poster. It must feel vast, dangerous, and cinematic — a world on the edge of destruction.</p>
+    <div class="mood-grid">
+      <div class="mood-card">
+        <div class="mood-card-label">Mood &amp; Tone</div>
+        <ul>
+          <li>Dark &amp; atmospheric</li>
+          <li>Cold cosmos</li>
+          <li>Glowing energy</li>
+          <li>Sense of scale</li>
+        </ul>
+      </div>
+      <div class="mood-card">
+        <div class="mood-card-label">Design Direction</div>
+        <ul>
+          <li>Deep blues &amp; purples</li>
+          <li>Metallic / geometric fonts</li>
+          <li>Dramatic lighting</li>
+          <li>Silhouettes &amp; figures</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-label">
+    <span id="s1-progress-label">STEP 01 · SLIDE 1 OF 22</span>
+    <span id="s1-progress-count">1 / 22</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="s1-progress-bar" style="width:4.5%"></div>
+  </div>
+
+  <!-- ── STEP 01: DESIGN PLAN ── -->
+
+  <!-- S1 Slide 1 -->
+  <div class="slide active" data-slide="1">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01</div>
+        <div class="step-title">MY MOVIE PLAN</div>
+      </div>
+    </div>
+    <p style="font-size:0.88rem;opacity:0.75;line-height:1.7;margin-bottom:20px;">Before you start designing, you need a plan. Every professional designer starts here. Watch the video below — it walks you through what your design plan needs to include and why planning matters in real-world design work.</p>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch First — How to Plan Your Poster</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/YR8 Poster vid1 - planning the poster.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 2 -->
+  <div class="slide" data-slide="2">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Key Objectives</div>
+        <div class="step-title">WHAT ARE YOU AIMING FOR?</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Identify your target audience and explain how your design choices will attract them</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Plan a colour palette and composition that fits the genre</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Justify every design decision using media vocabulary</div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;line-height:1.7;">Read the objectives above carefully. Use them to guide your design plan on the next slide. Try to push yourself towards the <strong style="color:var(--gold)">MOST</strong> level.</p>
+  </div>
+
+  <!-- S1 Slide 3 -->
+  <div class="slide" data-slide="3">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Your Design Plan</div>
+        <div class="step-title">FILL IN YOUR PLAN</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.6;margin-bottom:20px;">Your answers are saved automatically as you type.</p>
+    <div class="form-field">
+      <label>Your Target Audience</label>
+      <input type="text" id="s1_audience" placeholder="Who is this poster aimed at? Age, interests, genre fans..." oninput="autoSave('s1_audience',this.value,'s1_audience_saved')">
+      <div class="save-indicator" id="s1_audience_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Why Will They Be Attracted to This Poster?</label>
+      <textarea id="s1_attracted" placeholder="Think about what grabs their attention — imagery, colour, mood..." oninput="autoSave('s1_attracted',this.value,'s1_attracted_saved')"></textarea>
+      <div class="save-indicator" id="s1_attracted_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Colour Palette (Name 3–4 Colours and WHY)</label>
+      <textarea id="s1_palette" placeholder="e.g. Deep blue — suggests cold space and danger..." oninput="autoSave('s1_palette',this.value,'s1_palette_saved')"></textarea>
+      <div class="save-indicator" id="s1_palette_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Key Design Elements You Will Include</label>
+      <textarea id="s1_elements" placeholder="Describe your main image, composition, mood..." oninput="autoSave('s1_elements',this.value,'s1_elements_saved')"></textarea>
+      <div class="save-indicator" id="s1_elements_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- S1 Slide 4 -->
+  <div class="slide" data-slide="4">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Extension</div>
+        <div class="step-title">DESIGN RESEARCH</div>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Finished Early? — Design Research</div>
+      <ul>
+        <li>Look up the poster for <em>Interstellar</em>, <em>Arrival</em>, or <em>Dune</em>. What design techniques do they use to suggest vastness and isolation?</li>
+        <li>Write two sentences comparing their composition choices to your own plan.</li>
+      </ul>
+    </div>
+    <div class="form-field">
+      <label>Extension Research Notes</label>
+      <textarea id="s1_ext_research" placeholder="Your research notes..." oninput="autoSave('s1_ext_research',this.value,'s1_ext_research_saved')"></textarea>
+      <div class="save-indicator" id="s1_ext_research_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 02: COLLECT ASSETS ── -->
+
+  <!-- S1 Slide 5 -->
+  <div class="slide" data-slide="5">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02</div>
+        <div class="step-title">COLLECT YOUR ASSETS</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Find and save a background image and at least one character or subject image</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Collect a complete set of layered assets including objects and props</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Select images with intention, explaining how each one serves the poster's mood</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch First — How to Collect Your Assets</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid2 - asset collection.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 6 -->
+  <div class="slide" data-slide="6">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — What to Find</div>
+        <div class="step-title">GALACTIC RIFT ASSETS</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.65;margin-bottom:16px;">Create a folder called <code style="font-family:monospace;background:rgba(201,168,76,0.1);padding:2px 6px;border-radius:3px;color:var(--gold-light)">assets</code> in your Year 8 Computing folder. Find and save these image types:</p>
+    <div class="asset-grid">
+      <div class="asset-card">
+        <span class="asset-icon">🌌</span>
+        <div class="asset-label">Background</div>
+        <div class="asset-desc">A dramatic space or deep-sky scene that fills the canvas</div>
+        <ul class="asset-hints"><li>Nebula or galaxy photo</li><li>Star field with colour</li><li>Planet with glow</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🧑‍🚀</span>
+        <div class="asset-label">Hero Character</div>
+        <div class="asset-desc">A human figure — astronaut, scientist, or soldier</div>
+        <ul class="asset-hints"><li>Astronaut in suit</li><li>Silhouette of a person</li><li>Dramatic portrait</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🛸</span>
+        <div class="asset-label">Objects / Props</div>
+        <div class="asset-desc">Sci-fi objects that set the scene</div>
+        <ul class="asset-hints"><li>Spaceship or craft</li><li>Portal / energy rift</li><li>Alien structure</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🎬</span>
+        <div class="asset-label">Studio Logo</div>
+        <div class="asset-desc">A real studio logo as a transparent PNG</div>
+        <ul class="asset-hints"><li>Warner Bros, Universal</li><li>Paramount, A24</li><li>20th Century Studios</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- S1 Slide 7 -->
+  <div class="slide" data-slide="7">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — Find Your Images</div>
+        <div class="step-title">WHERE TO LOOK</div>
+      </div>
+    </div>
+    <div class="resource-links">
+      <a href="https://torchacademygatewaytrust-my.sharepoint.com/:f:/r/personal/jconnolly_garibaldischool_co_uk/Documents/Tyrone%27s%20Folder/Movie%20Poster%20Assets?csf=1&web=1&e=Suu1mV" target="_blank" class="resource-link primary">📁 Pre-Prepared Assets Folder</a>
+      <a href="https://www.pexels.com" target="_blank" class="resource-link">📷 Pexels — Free Images</a>
+      <a href="https://www.google.com/search?tbm=isch&tbs=il:cl&q=space+nebula+background" target="_blank" class="resource-link">🔍 Google Images (CC Filter)</a>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.65;margin-bottom:16px;">Tick each item off as you save it:</p>
+    <ul class="checklist" id="s1-asset-checklist">
+      <li onclick="toggleCheck(this,'s1_check_bg')"><div class="check-icon">✓</div><div class="checklist-item-text">🌌 Background saved — a space scene that feels vast and dramatic <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this,'s1_check_hero')"><div class="check-icon">✓</div><div class="checklist-item-text">🧑‍🚀 Hero character image saved — astronaut, scientist or soldier <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this,'s1_check_prop')"><div class="check-icon">✓</div><div class="checklist-item-text">🛸 At least one object or prop saved — spacecraft, rift, or alien element <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this,'s1_check_logo')"><div class="check-icon">✓</div><div class="checklist-item-text">🎬 Studio logo saved as a transparent PNG <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this,'s1_check_cc')"><div class="check-icon">✓</div><div class="checklist-item-text">All images are royalty-free (from Pexels or Google with Creative Commons filter) <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this,'s1_check_second')"><div class="check-icon">✓</div><div class="checklist-item-text">A second character or secondary figure saved to add depth <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+    </ul>
+  </div>
+
+  <!-- S1 Slide 8 -->
+  <div class="slide" data-slide="8">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — Extension</div>
+        <div class="step-title">THINK LIKE A DESIGNER</div>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Support — Finding Your Images</div>
+      <ul>
+        <li>Open the Movie Poster Assets folder your teacher has shared with you</li>
+        <li>Subfolders are organised: backgrounds, characters, objects, logos</li>
+        <li>Pick images that match the Galactic Rift mood — dark, dramatic, sci-fi</li>
+      </ul>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Think Like a Designer</div>
+      <ul>
+        <li>For each image you collect, write one sentence explaining <em>why</em> it serves the poster — not just what it shows, but what feeling it communicates.</li>
+        <li>Find two versions of a similar image (e.g. two nebula photos) and explain which you chose and why.</li>
+      </ul>
+    </div>
+    <div class="form-field">
+      <label>Extension — Image Selection Notes</label>
+      <textarea id="s1_ext_images" placeholder="Your notes on why you chose each image..." oninput="autoSave('s1_ext_images',this.value,'s1_ext_images_saved')"></textarea>
+      <div class="save-indicator" id="s1_ext_images_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 03: BUILD — CANVAS + BG + HERO ── -->
+
+  <!-- S1 Slide 9 -->
+  <div class="slide" data-slide="9">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03</div>
+        <div class="step-title">BUILD YOUR POSTER</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Open Photopea, set up the canvas, place your background and hero image</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Layer multiple images, remove backgrounds, and adjust sizes for depth</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Use blend modes and colour adjustments for a cinematic result</div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;margin-bottom:16px;">Open Photopea before moving on — it runs in your browser, no install needed. Keep this workbook open in a separate tab so you can follow along step by step.</p>
+    <div class="resource-links">
+      <a href="https://www.photopea.com" target="_blank" class="resource-link primary">▶ Open Photopea</a>
+    </div>
+  </div>
+
+  <!-- S1 Slide 10 -->
+  <div class="slide" data-slide="10">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Canvas &amp; Background</div>
+        <div class="step-title">SET UP &amp; PLACE BACKGROUND</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Set Up Your Canvas</h4>
+        <p>File → New → click the <code>Print</code> tab → select <code>A4</code>. Type <code>galactic_rift_poster</code> as the name. Click Create.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Place Your Background</h4>
+        <p>Go to <strong>File → Open and Place</strong> → select your space background image. Once placed, make sure <strong>Transform Controls</strong> are enabled — with the Move tool selected, tick <em>Transform Controls</em> in the top toolbar. Drag the corner handles to fill the entire canvas. Press <strong>Enter</strong> to confirm. In the Layers panel, drag this layer to the very bottom.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Canvas Setup &amp; Background</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid3 - new file and adding background.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD format. Wait for the white bar to disappear before doing anything else.</p></div>
+  </div>
+
+  <!-- S1 Slide 11 -->
+  <div class="slide" data-slide="11">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Hero Character</div>
+        <div class="step-title">PLACE &amp; CUT YOUR HERO</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add Your Hero Character</h4>
+        <p>Go to <strong>File → Open and Place</strong> → select your astronaut or figure. Resize using the corner handles — do <strong>not</strong> hold Shift, as this will distort the proportions. Press <strong>Enter</strong> to confirm. This layer should sit above the background in the Layers panel.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">4</div>
+      <div class="instruction-content">
+        <h4>Remove the Background from Your Character</h4>
+        <p>In the <strong>Layers panel</strong>, right-click your character layer → select <strong>Rasterize</strong>. Then select the <strong>Magic Wand</strong> tool from the left toolbar. Click on an area of the background you want to remove, then press <strong>Delete</strong>. Repeat for any remaining background areas. If you make a mistake, go to <strong>Edit → Undo</strong> (or press <strong>Ctrl+Z</strong>) to step back.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Removing the Background from Your Hero</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid4 - removing background magic wand.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid5 - removing background eraser tool.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid6 - moving image.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid7 - saving your file.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Made a Mistake Removing the Background?</div>
+      <ul>
+        <li>Press <strong>Ctrl+Z</strong> to undo the last step — you can press it multiple times to go further back</li>
+        <li>Or go to <strong>Edit → Undo</strong> from the top menu</li>
+        <li>Magic Wand works best when the background colour is clearly different from the character — try adjusting the <strong>Tolerance</strong> value in the top toolbar (lower = more precise)</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar to fully disappear.</p></div>
+  </div>
+
+  <!-- S1 Slide 12 -->
+  <div class="slide" data-slide="12">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Depth &amp; Props</div>
+        <div class="step-title">ADD DEPTH &amp; OBJECTS</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">5</div>
+      <div class="instruction-content">
+        <h4>Add Props &amp; Create Depth</h4>
+        <p>Place your spacecraft, rift, or objects. Size them so objects closer to the viewer appear larger — this creates perspective. Reorder layers in the Layers panel to control what's in front.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding Props and Depth</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid8 - adding in objects or props.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid9 - resizing images.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster Vid12 - How to move assets.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar.</p></div>
+  </div>
+
+  <!-- S1 Slide 13 — Build Checklist so far -->
+  <div class="slide" data-slide="13">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Checklist</div>
+        <div class="step-title">BUILD CHECKLIST</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.65;margin-bottom:12px;">Before moving on — tick everything you've completed:</p>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🖼 Canvas created using File → New → Print → A4, named correctly <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🌌 Space background placed and filling the full canvas — at the bottom of the layers <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🧑‍🚀 Hero character placed above the background layer <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">✂ Background removed from the character image <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🛸 At least one prop placed and sized for perspective <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD file saved — saving bar fully completed <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 04: HERO SHOT COMPOSITION ── -->
+
+  <!-- S1 Slide 14 -->
+  <div class="slide" data-slide="14">
+    <div class="step-header">
+      <div class="step-num-badge">04</div>
+      <div class="step-meta">
+        <div class="step-label">Step 04</div>
+        <div class="step-title">HERO SHOT</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 1 — MAIN IMAGE / HERO SHOT</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>Hero Shot</strong> is the main image of your poster — it establishes character, tone, and story at a glance. In professional movie posters the hero is always positioned with purpose: where they sit in the frame, how large they are, what they face — all of this communicates meaning before a single word is read.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Position your hero character so they are clearly the main focus of the poster</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Use scale and placement to create drama — hero faces a threat, looks into the unknown</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Apply a colour or light adjustment to your hero so they feel part of the scene</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Composing Your Hero Shot</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid10 - placing your hero.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster Vid11 - HueSaturation of hero.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 15 -->
+  <div class="slide" data-slide="15">
+    <div class="step-header">
+      <div class="step-num-badge">04</div>
+      <div class="step-meta">
+        <div class="step-label">Step 04 — Techniques</div>
+        <div class="step-title">COMPOSING YOUR HERO</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Position for Drama</h4>
+        <p>Move your hero slightly off-centre — this is more cinematic than dead centre. Try placing them lower in the frame so the threat or landscape looms above them. Use the Move tool and Free Transform (<code>Ctrl+Alt+T</code>) to adjust.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Match the Lighting</h4>
+        <p>Your hero should feel like they belong in the scene. Select the hero layer → Image → Adjustments → Hue/Saturation. Shift the hue slightly towards blue/teal to match a cold space environment. Reduce saturation by 10–15 to feel more cinematic.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add a Subtle Rim Light (Extension)</h4>
+        <p>Duplicate your hero layer. Filter → Blur → Gaussian Blur (set to 8px). Change the blend mode to Screen and reduce opacity to 40%. This creates a glow effect that suggests light hitting the edges of the character.</p>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Rule of Thirds</div>
+      <ul>
+        <li>In Photopea: View → Show → Grid. The grid divides your canvas into thirds. Place your hero's eyes or face at one of the four intersection points — this is the professional rule of thirds.</li>
+        <li>Turn the grid off when you're happy: View → Show → Grid again.</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar to fully disappear before continuing.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Hero is clearly the dominant visual focus of the poster <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Hero is positioned off-centre and creates a sense of drama or tension <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Hue/Saturation adjusted on hero layer to match the scene's lighting <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Glow/rim light effect applied using a duplicated blurred layer <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved — saving bar fully completed <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 05: TITLE / TYPOGRAPHY ── -->
+
+  <!-- S1 Slide 16 -->
+  <div class="slide" data-slide="16">
+    <div class="step-header">
+      <div class="step-num-badge">05</div>
+      <div class="step-meta">
+        <div class="step-label">Step 05</div>
+        <div class="step-title">TITLE &amp; TYPOGRAPHY</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 2 — TITLE / TYPOGRAPHY</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>font you choose signals the genre</strong> before anyone reads the words. A scratchy, cracked font says horror. A bold, blocky font says action. Clean metallic text says sci-fi thriller. Your title needs to be readable from a distance and immediately communicate the mood of the film.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add the movie title in a font that suits the genre</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Adjust font size, colour, and spacing so the title dominates the poster</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Apply a layer style effect (glow, bevel, or gradient overlay) to elevate the title</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding and Styling Your Title</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid13 - how to add title.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/YR8 Poster vid14 - how to change font.mp4" type="video/mp4">
+      </video>
+	   <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid15 - adding effects and changing text colour.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 17 -->
+  <div class="slide" data-slide="17">
+    <div class="step-header">
+      <div class="step-num-badge">05</div>
+      <div class="step-meta">
+        <div class="step-label">Step 05 — Techniques</div>
+        <div class="step-title">STYLING YOUR TITLE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Title Text</h4>
+        <p>Select the <strong>Text tool (T)</strong> from the toolbar. Click on your canvas. Type: <strong>GALACTIC RIFT</strong>. Use all capitals for impact. Select the text and change the font to something bold and geometric — try fonts like <em>Impact</em>, <em>Bebas Neue</em>, or <em>Orbitron</em> for sci-fi.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Size and Position</h4>
+        <p>The title should be the largest text on the poster. Use <code>Ctrl+Alt+T</code> (Free Transform) to resize. Place it in the lower third of the poster — this is a common professional convention for theatrical posters.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add a Layer Style Effect</h4>
+        <p>Double-click the title layer in the Layers panel. This opens Layer Style. Try: <strong>Outer Glow</strong> (set colour to a cold blue/white, opacity 60%) or <strong>Gradient Overlay</strong> (white to light blue, angle 90°). This gives the metallic sci-fi feel.</p>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Can't Find a Good Font?</div>
+      <ul>
+        <li>In the Text tool, click the font dropdown and type "bold" to filter choices</li>
+        <li>Photopea includes Google Fonts — look for Bebas Neue, Anton, or Russo One</li>
+        <li>Avoid thin or handwriting fonts for this scenario — they won't read clearly</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Movie title added in a bold, genre-appropriate font <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Title is the largest text on the poster and clearly readable <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Title colour contrasts well against the background <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Layer style applied — glow, bevel, or gradient overlay <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved — saving bar fully completed <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 06: TAGLINE ── -->
+
+  <!-- S1 Slide 18 -->
+  <div class="slide" data-slide="18">
+    <div class="step-header">
+      <div class="step-num-badge">06</div>
+      <div class="step-meta">
+        <div class="step-label">Step 06</div>
+        <div class="step-title">TAGLINE</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 3 — TAGLINE</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>tagline</strong> is a short, punchy phrase that hooks the audience. It creates mystery, excitement, or a sense of stakes. The tagline for Galactic Rift is: <em style="color:var(--gold-light)">"A portal has opened. Not everyone will survive."</em> — it creates immediate tension and raises a question in the viewer's mind.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add the tagline in a smaller font, clearly positioned near the title</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Style the tagline differently to the title — lighter weight, italic, or different colour</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Adjust letter spacing and opacity to give the tagline a professional, subtle quality</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding Your Tagline</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid16 - adding the tagline.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 19 -->
+  <div class="slide" data-slide="19">
+    <div class="step-header">
+      <div class="step-num-badge">06</div>
+      <div class="step-meta">
+        <div class="step-label">Step 06 — Techniques</div>
+        <div class="step-title">STYLING YOUR TAGLINE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Tagline Text</h4>
+        <p>Select the Text tool. Click near the title. Type: <strong>"A portal has opened. Not everyone will survive."</strong> Use a lighter, thinner font than the title — try <em>DM Sans Light</em>, <em>Lato Light</em>, or <em>Raleway</em> in italic.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Size and Position</h4>
+        <p>The tagline should sit <em>above</em> the title or between the hero and the title. It should be noticeably smaller — about a third of the title's size. Centre-align the text for a professional look.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Adjust Spacing and Opacity</h4>
+        <p>In the Character panel (Window → Character), increase the letter spacing (tracking) to 150–200 for a cinematic feel. You can also reduce the layer opacity to 80–85% so it sits behind the title visually.</p>
+      </div>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the saving bar to disappear.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tagline added and clearly readable <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tagline font is visually distinct from the title — lighter, smaller, italic <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Letter spacing adjusted for a cinematic look <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved — saving bar fully completed <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 07: COLOUR PALETTE ── -->
+
+  <!-- S1 Slide 20 -->
+  <div class="slide" data-slide="20">
+    <div class="step-header">
+      <div class="step-num-badge">07</div>
+      <div class="step-meta">
+        <div class="step-label">Step 07</div>
+        <div class="step-title">COLOUR PALETTE</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 4 — COLOUR PALETTE</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      <strong>Colour communicates genre instantly.</strong> Dark blues and greens suggest thriller and danger. Warm yellows and oranges suggest comedy and warmth. Washed-out tones suggest dystopia. For Galactic Rift, the palette should feel cold, vast, and dangerous — deep blues, purples, and sharp cyan accents.
+    </div>
+    <div class="palette-grid">
+      <div class="palette-swatch" style="background:#1a237e;color:#fff;">Deep Indigo</div>
+      <div class="palette-swatch" style="background:#0d47a1;color:#fff;">Space Blue</div>
+      <div class="palette-swatch" style="background:#006064;color:#fff;">Cold Teal</div>
+      <div class="palette-swatch" style="background:#00e5ff;color:#000;">Cyan Accent</div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Use Hue/Saturation to shift your background towards the cold blue/purple range</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Apply a blend mode to create atmospheric lighting across multiple layers</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Add a gradient overlay or colour grade layer for a cinematic, unified look</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Applying Your Colour Palette</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid17 - colour scheme hue and saturation.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 21 -->
+  <div class="slide" data-slide="21">
+    <div class="step-header">
+      <div class="step-num-badge">07</div>
+      <div class="step-meta">
+        <div class="step-label">Step 07 — Techniques</div>
+        <div class="step-title">COLOUR &amp; ATMOSPHERE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Adjust the Background Colour</h4>
+        <p>Select your background layer → Image → Adjustments → Hue/Saturation. Shift Hue towards blue/purple. Reduce Lightness slightly to make the scene feel darker and more dramatic.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Apply a Blend Mode for Atmosphere</h4>
+        <p>Create a new empty layer above the background. Use the Gradient tool: set colours from dark blue (top) to transparent (bottom). In the Layers panel change the blend mode to <code>Overlay</code> or <code>Screen</code> at 40–60% opacity. This adds atmospheric depth.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add a Vignette (Extension)</h4>
+        <p>Create a new layer at the very top. Use the Elliptical Marquee tool — drag a large oval selection in the centre, then go Select → Inverse. Fill with black (Edit → Fill → Black). Set layer opacity to 50% and blend mode to Multiply. This darkens the edges like a cinema lens.</p>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Curves Colour Grade</div>
+      <ul>
+        <li>Layer → New Adjustment Layer → Curves. Select the Blue channel and pull it slightly upward — this gives the whole poster a cold, futuristic colour cast used in real sci-fi films.</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Background hue shifted towards cold blues/purples <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Blend mode applied to create atmospheric lighting <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Vignette or gradient overlay added for cinematic depth <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved — saving bar fully completed <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 08: BILLING BLOCK ── -->
+
+  <!-- S1 Slide 22 -->
+  <div class="slide" data-slide="22">
+    <div class="step-header">
+      <div class="step-num-badge">08</div>
+      <div class="step-meta">
+        <div class="step-label">Step 08</div>
+        <div class="step-title">BILLING BLOCK</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 5 — BILLING BLOCK</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>billing block</strong> is the small text at the bottom of every professional movie poster — the names of actors, the director, the production company, and the film rating. It's tiny and often barely readable, but it signals that this is a real, professionally produced film. You need one on your poster to make it look authentic.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add small credits text at the bottom of the poster — actors, director, studio, rating</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Style it in a narrow, condensed font at a small size so it looks authentic</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Include a film rating box (e.g. 12A, 15, PG) styled appropriately</div>
+    </div>
+  </div>
+
+  <!-- S1 Slide 23 - billing techniques + studio logo combined slide -->
+  <div class="slide" data-slide="23">
+    <div class="step-header">
+      <div class="step-num-badge">08 / 09</div>
+      <div class="step-meta">
+        <div class="step-label">Steps 08 &amp; 09 — Techniques</div>
+        <div class="step-title">BILLING BLOCK &amp; STUDIO LOGO</div>
+        <div class="anatomy-tag">ANATOMY ELEMENTS 5 &amp; 6</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Billing Block Text</h4>
+        <p>Select the Text tool. Draw a wide text box across the bottom of the poster. Type mock credits — use names from your class or invent them: e.g. <em>HARRISON SMITH · ELENA CROSS · MALIK JOHNSON · A TORCH FILMS PRODUCTION · Screenplay by [Your Name] · Directed by [Your Name] · © 2025</em></p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Style It Correctly</h4>
+        <p>Font: use a condensed/narrow font — try <em>Arial Narrow</em> or <em>Barlow Condensed</em>. Size: 6–8pt. Colour: white or light grey. Reduce layer opacity to 70–80%. This is intentionally hard to read — that's how real billing blocks look.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add the Studio Logo</h4>
+        <p>File → Place → select your studio logo PNG (it should have a transparent background). Place it in the bottom-left or bottom-right corner. Resize it to be small — roughly the same height as your billing block text. If the logo is dark, change its blend mode to <code>Screen</code> so it shows on a dark background.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">4</div>
+      <div class="instruction-content">
+        <h4>Add a Film Rating Box (Extension)</h4>
+        <p>Use the Rectangle tool to draw a small box. Fill it with white or a standard rating colour. Add a Text layer on top: type <strong>12A</strong> or <strong>15</strong> in a bold font. Group these layers and place the rating in the bottom right.</p>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Where to Find Studio Logos</div>
+      <ul>
+        <li>Check the assets folder — logos are already saved as transparent PNGs</li>
+        <li>Or search Google: "Warner Bros logo PNG transparent" — filter by Creative Commons</li>
+        <li>If the logo has a white background, use blend mode Screen to hide it</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar to completely disappear.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Billing block added at the bottom — actors, director, studio <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Billing block styled in a small, condensed font with reduced opacity <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Studio logo placed as a PNG in the bottom corner <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Logo blend mode set to Screen if background is dark <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Film rating box added — styled correctly <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved — saving bar fully completed <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 10: FINAL EXPORT ── -->
+
+  <!-- S1 Slide 24 — Final Review + Export -->
+  <div class="slide" data-slide="24">
+    <div class="step-header">
+      <div class="step-num-badge">10</div>
+      <div class="step-meta">
+        <div class="step-label">Step 10 — Final</div>
+        <div class="step-title">FINAL CHECKLIST &amp; EXPORT</div>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;line-height:1.7;margin-bottom:20px;">Before you export your final poster, check that all six anatomy elements are present. Use this as your self-assessment — be honest with yourself.</p>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>1 — Hero Shot:</strong> Main character clearly dominant, positioned dramatically <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>2 — Title / Typography:</strong> Bold, genre-appropriate font with layer style effect <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>3 — Tagline:</strong> Short hook phrase, styled differently to the title <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>4 — Colour Palette:</strong> Cold blues/purples applied consistently — feels like a thriller <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>5 — Billing Block:</strong> Small credits text at the bottom, appropriately styled <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>6 — Studio Logo:</strong> Transparent PNG placed in the bottom corner <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Poster feels cinematic — it looks like a real movie poster <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">All design choices connect back to the target audience and genre <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+    </ul>
+    <hr class="divider">
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Save Your PSD File First</h4>
+        <p>File → Save As → Photopea PSD format. This keeps all your layers intact. Wait for the white saving bar to completely disappear before doing anything else.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Export as JPEG for Submission</h4>
+        <p>File → Export As → JPEG. Set quality to 90%. Name the file <code>galactic_rift_YOURNAME.jpg</code>. Save to your Year 8 Computing folder.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Saving and Exporting Your Final Poster</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid18 - how to save the poster.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- S1 Slide 25 — Completion -->
+  <div class="slide" data-slide="25">
+    <div class="completion-block">
+      <div class="big-tick">🎬</div>
+      <h2>POSTER COMPLETE</h2>
+      <p>You've built a full theatrical movie poster from scratch — design plan, assets, composition, typography, colour, billing block, and studio logo. That's the full anatomy of a real movie poster.</p>
+      <div class="resource-links" style="justify-content:center">
+        <a href="https://www.photopea.com" target="_blank" class="resource-link primary">↩ Back to Photopea</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /workbook -->
+</div><!-- /scenario-1 -->
+
+
+<!-- ══════════════════════════════════════════
+     SCENARIO 02 — THE GREAT PET ESCAPE
+══════════════════════════════════════════ -->
+<div id="scenario-2" class="scenario-panel">
+<div class="workbook">
+
+  <!-- INTRO -->
+  <div class="scenario-intro">
+    <span class="scenario-genre-tag">🐾 Family Comedy · Scenario 02</span>
+    <h1 class="scenario-title">THE GREAT<br>PET ESCAPE</h1>
+    <p class="scenario-tagline">"Sometimes the smallest heroes have the biggest adventures."</p>
+    <p class="scenario-brief">A brave pug, a mischievous parrot, and a clever hamster must band together to find their way home after accidentally being loaded onto a delivery truck. You have been commissioned to design the official theatrical movie poster. It must feel bright, joyful, and full of personality — every child in the audience should want to see it immediately.</p>
+    <div class="mood-grid">
+      <div class="mood-card">
+        <div class="mood-card-label">Mood &amp; Tone</div>
+        <ul>
+          <li>Bright &amp; warm</li>
+          <li>Fun &amp; chaotic</li>
+          <li>City adventure</li>
+          <li>Heartwarming</li>
+        </ul>
+      </div>
+      <div class="mood-card">
+        <div class="mood-card-label">Design Direction</div>
+        <ul>
+          <li>Warm yellows &amp; oranges</li>
+          <li>Bold rounded fonts</li>
+          <li>Cartoon or playful style</li>
+          <li>Busy, energetic composition</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-label">
+    <span id="s2-progress-label">STEP 01 · SLIDE 1 OF 22</span>
+    <span id="s2-progress-count">1 / 22</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="s2-progress-bar" style="width:4.5%"></div>
+  </div>
+
+  <!-- ── STEP 01 ── -->
+  <div class="slide active" data-slide="1">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01</div>
+        <div class="step-title">MY MOVIE PLAN</div>
+      </div>
+    </div>
+    <p style="font-size:0.88rem;opacity:0.75;line-height:1.7;margin-bottom:20px;">Before you start designing, you need a plan. Watch the video — it walks you through what your design plan needs to include and why planning matters in real-world design work.</p>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch First — How to Plan Your Poster</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/YR8 Poster vid1 - planning the poster.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="2">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Key Objectives</div>
+        <div class="step-title">WHAT ARE YOU AIMING FOR?</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Identify your target audience and explain how your design choices will attract them</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Plan a colour palette and composition that fits the genre</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Justify every design decision using media vocabulary</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="3">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Your Design Plan</div>
+        <div class="step-title">FILL IN YOUR PLAN</div>
+      </div>
+    </div>
+    <p style="font-size:0.82rem;opacity:0.6;margin-bottom:20px;">Your answers are saved automatically as you type.</p>
+    <div class="form-field">
+      <label>Your Target Audience</label>
+      <input type="text" id="s2_audience" placeholder="Who is this poster aimed at?" oninput="autoSave('s2_audience',this.value,'s2_audience_saved')">
+      <div class="save-indicator" id="s2_audience_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Why Will They Be Attracted to This Poster?</label>
+      <textarea id="s2_attracted" placeholder="What grabs their attention — colour, animals, fun visuals?" oninput="autoSave('s2_attracted',this.value,'s2_attracted_saved')"></textarea>
+      <div class="save-indicator" id="s2_attracted_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Colour Palette (Name 3–4 Colours and WHY)</label>
+      <textarea id="s2_palette" placeholder="e.g. Bright yellow — warmth, fun, sunshine..." oninput="autoSave('s2_palette',this.value,'s2_palette_saved')"></textarea>
+      <div class="save-indicator" id="s2_palette_saved">✓ Saved</div>
+    </div>
+    <div class="form-field">
+      <label>Key Design Elements You Will Include</label>
+      <textarea id="s2_elements" placeholder="Animals, city background, fun props, bold title..." oninput="autoSave('s2_elements',this.value,'s2_elements_saved')"></textarea>
+      <div class="save-indicator" id="s2_elements_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="4">
+    <div class="step-header">
+      <div class="step-num-badge">01</div>
+      <div class="step-meta">
+        <div class="step-label">Step 01 — Extension</div>
+        <div class="step-title">DESIGN RESEARCH</div>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Finished Early? — Design Research</div>
+      <ul>
+        <li>Look up posters for <em>The Secret Life of Pets</em>, <em>Bolt</em>, or <em>Madagascar</em>. What design techniques make them instantly appealing to a young audience?</li>
+        <li>Write two sentences comparing their composition choices to your own plan.</li>
+      </ul>
+    </div>
+    <div class="form-field">
+      <label>Extension Research Notes</label>
+      <textarea id="s2_ext_research" placeholder="Your research notes..." oninput="autoSave('s2_ext_research',this.value,'s2_ext_research_saved')"></textarea>
+      <div class="save-indicator" id="s2_ext_research_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 02 ── -->
+  <div class="slide" data-slide="5">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02</div>
+        <div class="step-title">COLLECT YOUR ASSETS</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Find and save a background image and at least one character or subject image</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Collect a complete set of layered assets including objects and props</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Select images with intention, explaining how each serves the poster's mood</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch First — How to Collect Your Assets</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid2 - asset collection.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="6">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — What to Find</div>
+        <div class="step-title">PET ESCAPE ASSETS</div>
+      </div>
+    </div>
+    <div class="asset-grid">
+      <div class="asset-card">
+        <span class="asset-icon">🏙</span>
+        <div class="asset-label">Background</div>
+        <div class="asset-desc">Bright, colourful city — street level or skyline</div>
+        <ul class="asset-hints"><li>Busy city street</li><li>Colourful urban skyline</li><li>Park with city behind</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🐾</span>
+        <div class="asset-label">Main Characters</div>
+        <div class="asset-desc">Cute, expressive animals — the star pets</div>
+        <ul class="asset-hints"><li>A pug (funny expression)</li><li>A parrot (colourful)</li><li>A hamster or small animal</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🎪</span>
+        <div class="asset-label">Objects / Props</div>
+        <div class="asset-desc">Fun props hinting at adventure and chaos</div>
+        <ul class="asset-hints"><li>Pet carrier / cage</li><li>Balloons or bunting</li><li>City landmarks (bus, taxi)</li></ul>
+      </div>
+      <div class="asset-card">
+        <span class="asset-icon">🎬</span>
+        <div class="asset-label">Studio Logo</div>
+        <div class="asset-desc">A real studio logo as a transparent PNG</div>
+        <ul class="asset-hints"><li>Pixar, DreamWorks</li><li>Universal, Sony</li><li>Disney, Warner Bros</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="7">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — Find Your Images</div>
+        <div class="step-title">WHERE TO LOOK</div>
+      </div>
+    </div>
+    <div class="resource-links">
+      <a href="https://torchacademygatewaytrust-my.sharepoint.com/:f:/r/personal/jconnolly_garibaldischool_co_uk/Documents/Tyrone%27s%20Folder/Movie%20Poster%20Assets?csf=1&web=1&e=dHI14d" target="_blank" class="resource-link primary">📁 Pre-Prepared Assets Folder</a>
+      <a href="https://www.pexels.com" target="_blank" class="resource-link">📷 Pexels — Free Images</a>
+      <a href="https://www.google.com/search?tbm=isch&tbs=il:cl&q=cute+animals+city" target="_blank" class="resource-link">🔍 Google Images (CC Filter)</a>
+    </div>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🏙 Background saved — a bright city or outdoor scene <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🐾 At least one animal character saved — pug, parrot, or hamster <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🎪 At least one prop or object saved that fits the adventure theme <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🎬 Studio logo saved as a transparent PNG <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">All images are royalty-free <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Second and third animal characters saved for a full ensemble poster <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+    </ul>
+  </div>
+
+  <div class="slide" data-slide="8">
+    <div class="step-header">
+      <div class="step-num-badge">02</div>
+      <div class="step-meta">
+        <div class="step-label">Step 02 — Extension</div>
+        <div class="step-title">THINK LIKE A DESIGNER</div>
+      </div>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Support — Finding Your Images</div>
+      <ul>
+        <li>Open the Movie Poster Assets folder — backgrounds, characters, objects, logos are organised for you</li>
+        <li>Pick images that match The Great Pet Escape — bright, colourful, expressive animals</li>
+      </ul>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension</div>
+      <ul>
+        <li>For each image write one sentence explaining why it serves the poster — not just what it shows, but what feeling it communicates.</li>
+        <li>Find two versions of a similar animal photo and explain which you chose and why — consider expression, angle, and energy.</li>
+      </ul>
+    </div>
+    <div class="form-field">
+      <label>Extension — Image Selection Notes</label>
+      <textarea id="s2_ext_images" placeholder="Your notes..." oninput="autoSave('s2_ext_images',this.value,'s2_ext_images_saved')"></textarea>
+      <div class="save-indicator" id="s2_ext_images_saved">✓ Saved</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 03 ── -->
+  <div class="slide" data-slide="9">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03</div>
+        <div class="step-title">BUILD YOUR POSTER</div>
+      </div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Open Photopea, set up the canvas, place your background and hero animal</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Layer multiple animals, remove backgrounds, and adjust sizes for depth</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Use blend modes and colour adjustments for a vibrant result</div>
+    </div>
+    <div class="resource-links">
+      <a href="https://www.photopea.com" target="_blank" class="resource-link primary">▶ Open Photopea</a>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="10">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Canvas &amp; Background</div>
+        <div class="step-title">SET UP &amp; PLACE BACKGROUND</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Set Up Your Canvas</h4>
+        <p>File → New → click the <code>Print</code> tab → select <code>A4</code>. Type <code>pet_escape_poster</code> as the name. Click Create.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Place Your Background</h4>
+        <p>Go to <strong>File → Open and Place</strong> → select your city background image. Once placed, make sure <strong>Transform Controls</strong> are enabled — with the Move tool selected, tick <em>Transform Controls</em> in the top toolbar. Drag the corner handles to fill the entire canvas. Press <strong>Enter</strong> to confirm. In the Layers panel, drag this layer to the very bottom.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Canvas Setup &amp; Background</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid3 - new file and adding background.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar to disappear.</p></div>
+  </div>
+
+  <div class="slide" data-slide="11">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Hero Animal</div>
+        <div class="step-title">PLACE &amp; CUT YOUR HERO</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add Your Main Animal</h4>
+        <p>Go to <strong>File → Open and Place</strong> → select your main animal (e.g. the pug). Resize using the corner handles — do <strong>not</strong> hold Shift, as this will distort the proportions. Press <strong>Enter</strong> to confirm. This layer should sit above the background in the Layers panel.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">4</div>
+      <div class="instruction-content">
+        <h4>Remove the Background</h4>
+        <p>In the <strong>Layers panel</strong>, right-click your animal layer → select <strong>Rasterize</strong>. Then select the <strong>Magic Wand</strong> tool from the left toolbar. Click on an area of the background you want to remove, then press <strong>Delete</strong>. Repeat for any remaining background areas. If you make a mistake, press <strong>Ctrl+Z</strong> to undo, or go to <strong>Edit → Undo</strong>.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Placing and Cutting Your Hero Animal</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid4 - removing background magic wand.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid5 - removing background eraser tool.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid6 - moving image.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid7 - saving your file.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="support-block">
+      <div class="support-block-title">🪜 Made a Mistake Removing the Background?</div>
+      <ul>
+        <li>Press <strong>Ctrl+Z</strong> to undo — you can press it multiple times to step further back</li>
+        <li>Or go to <strong>Edit → Undo</strong> from the top menu</li>
+        <li>Magic Wand works best when the background is a different colour to the animal — lower the <strong>Tolerance</strong> value in the top toolbar for a more precise selection</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar.</p></div>
+  </div>
+
+  <div class="slide" data-slide="12">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — More Animals &amp; Depth</div>
+        <div class="step-title">BUILD THE ENSEMBLE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">5</div>
+      <div class="instruction-content">
+        <h4>Add More Animals &amp; Create Depth</h4>
+        <p>Place the parrot and hamster. Arrange them so the largest animal appears closest to the viewer. Reorder layers to control what's in front. Overlap them slightly for a fun, chaotic feel.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Building the Ensemble Composition</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid8 - adding in objects or props.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid9 - resizing images.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster Vid12 - How to move assets.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar.</p></div>
+  </div>
+
+  <div class="slide" data-slide="13">
+    <div class="step-header">
+      <div class="step-num-badge">03</div>
+      <div class="step-meta">
+        <div class="step-label">Step 03 — Checklist</div>
+        <div class="step-title">BUILD CHECKLIST</div>
+      </div>
+    </div>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🖼 Canvas created, named correctly <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🏙 City background placed at the bottom of the layers <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🐾 Main animal placed above the background <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">✂ Background removed from the main animal <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">🎪 At least one prop or second animal placed for depth <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD file saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 04: HERO SHOT ── -->
+  <div class="slide" data-slide="14">
+    <div class="step-header">
+      <div class="step-num-badge">04</div>
+      <div class="step-meta">
+        <div class="step-label">Step 04</div>
+        <div class="step-title">HERO SHOT</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 1 — MAIN IMAGE / HERO SHOT</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>Hero Shot</strong> is the dominant image of your poster. For a family comedy, the hero animal should feel big, expressive, and funny — their personality should jump off the page. Position, scale, and expression all work together to make the viewer instantly connect with the character.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Position your main animal so they are clearly the star of the poster</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Use scale to make the hero feel large and dominant — smaller animals behind</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Adjust colour warmth on the hero to feel bright and vibrant against the background</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Composing Your Hero Shot</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid10 - placing your hero.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster Vid11 - HueSaturation of hero.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="15">
+    <div class="step-header">
+      <div class="step-num-badge">04</div>
+      <div class="step-meta">
+        <div class="step-label">Step 04 — Techniques</div>
+        <div class="step-title">COMPOSING YOUR HERO</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Make Your Hero BIG</h4>
+        <p>Select your main animal layer. Use <code>Ctrl+Alt+T</code> (Free Transform) to scale it up — the pug should be large and front-facing. Centre them slightly low in the poster so the title can sit above.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Arrange Supporting Animals</h4>
+        <p>Place the parrot and hamster slightly behind and to the sides of the pug. Make them smaller — this reinforces who the star is. Rotate them slightly using Free Transform for a fun, lively feel.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Boost the Warmth</h4>
+        <p>Select your hero layer → Image → Adjustments → Hue/Saturation. Increase Saturation by 15–20 and shift Hue very slightly towards warm orange. This makes the animal pop against the city background.</p>
+      </div>
+    </div>
+    <div class="extension-block">
+      <div class="extension-block-title">★ Extension — Drop Shadow for Grounding</div>
+      <ul>
+        <li>Double-click your main animal layer → Layer Style → Drop Shadow. Set angle to 90°, distance 10, size 20. This grounds the character on the poster and adds depth.</li>
+      </ul>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the saving bar.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Main animal is clearly the dominant visual — large and expressive <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Supporting animals arranged behind at smaller scale <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Hue/Saturation boosted on hero to feel warm and vibrant <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Drop shadow applied to ground the character <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 05: TYPOGRAPHY ── -->
+  <div class="slide" data-slide="16">
+    <div class="step-header">
+      <div class="step-num-badge">05</div>
+      <div class="step-meta">
+        <div class="step-label">Step 05</div>
+        <div class="step-title">TITLE &amp; TYPOGRAPHY</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 2 — TITLE / TYPOGRAPHY</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      For a family comedy the title font should feel <strong>fun, bold, and approachable</strong>. Rounded corners, bright colours, possibly multiple colours or a slight tilt. Think of how <em>Toy Story</em>, <em>Despicable Me</em>, or <em>The Secret Life of Pets</em> use typography — playful but instantly readable from a distance.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add the movie title in a bold, fun font that suits a family comedy</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Use a bright colour and large size so the title dominates the top of the poster</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Apply a layer style (stroke/outline or drop shadow) to make the title pop</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding and Styling Your Title</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid13 - how to add title.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/YR8 Poster vid14 - how to change font.mp4" type="video/mp4">
+      </video>
+	  <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid15 - adding effects and changing text colour.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="17">
+    <div class="step-header">
+      <div class="step-num-badge">05</div>
+      <div class="step-meta">
+        <div class="step-label">Step 05 — Techniques</div>
+        <div class="step-title">STYLING YOUR TITLE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Title Text</h4>
+        <p>Select the Text tool. Click on the canvas. Type: <strong>THE GREAT PET ESCAPE</strong>. Try bold, rounded fonts — <em>Fredoka One</em>, <em>Lilita One</em>, or <em>Nunito ExtraBold</em>. These are all available in Photopea's Google Fonts.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Position and Colour</h4>
+        <p>Place the title at the top of the poster above the animals. Set the colour to bright yellow, orange, or white with a coloured outline. Make it large enough to read clearly.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add a Stroke Outline</h4>
+        <p>Double-click the title layer → Layer Style → Stroke. Set size to 6–8px, colour to dark blue or black. This outline makes the title readable against any background colour — exactly how animated movie posters work.</p>
+      </div>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the saving bar.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Title added in a bold, rounded, genre-appropriate font <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Title is large, brightly coloured, and clearly the main text on the poster <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Stroke outline applied so title reads clearly over any background <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 06: TAGLINE ── -->
+  <div class="slide" data-slide="18">
+    <div class="step-header">
+      <div class="step-num-badge">06</div>
+      <div class="step-meta">
+        <div class="step-label">Step 06</div>
+        <div class="step-title">TAGLINE</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 3 — TAGLINE</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The tagline for The Great Pet Escape is: <em style="color:var(--gold-light)">"Sometimes the smallest heroes have the biggest adventures."</em> — it speaks directly to the target audience of children and families, and hints at the fun and heart of the story.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add the tagline in a smaller, lighter font near the title</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Style it to feel fun and friendly — slightly different from the main title</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Adjust size, colour, and position so it complements rather than competes with the title</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Adding Your Tagline</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid16 - adding the tagline.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="19">
+    <div class="step-header">
+      <div class="step-num-badge">06</div>
+      <div class="step-meta">
+        <div class="step-label">Step 06 — Techniques</div>
+        <div class="step-title">STYLING YOUR TAGLINE</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Tagline Text</h4>
+        <p>Select the Text tool. Type: <strong>"Sometimes the smallest heroes have the biggest adventures."</strong> Use a slightly lighter version of your title font, or try a clean italic.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Position It</h4>
+        <p>Place the tagline above or below the title — try above the title for a classic animated poster feel. Centre-align. Make it about a third the size of the title.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Colour and Contrast</h4>
+        <p>Use white or a light yellow. Add a subtle drop shadow (Layer Style → Drop Shadow, soft, low opacity) so it reads over the colourful background without a hard outline.</p>
+      </div>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the saving bar.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tagline added and clearly readable <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Tagline is visually distinct from the title — smaller, lighter <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Drop shadow applied for readability <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 07: COLOUR PALETTE ── -->
+  <div class="slide" data-slide="20">
+    <div class="step-header">
+      <div class="step-num-badge">07</div>
+      <div class="step-meta">
+        <div class="step-label">Step 07</div>
+        <div class="step-title">COLOUR PALETTE</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 4 — COLOUR PALETTE</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      For a family comedy, the palette should feel <strong>warm, bright, and energetic</strong>. Yellows and oranges suggest fun and warmth. Bright blues balance them out. Avoid dark, desaturated colours — they would suggest the wrong genre entirely.
+    </div>
+    <div class="palette-grid">
+      <div class="palette-swatch" style="background:#f9a825;color:#000;">Sunshine Yellow</div>
+      <div class="palette-swatch" style="background:#e64a19;color:#fff;">Adventure Orange</div>
+      <div class="palette-swatch" style="background:#1565c0;color:#fff;">Sky Blue</div>
+      <div class="palette-swatch" style="background:#2e7d32;color:#fff;">City Green</div>
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Use Hue/Saturation to boost warmth and vibrancy across the poster</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Apply a warm overlay layer using Screen blend mode</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Add a gradient overlay that enhances the warm-to-cool contrast top to bottom</div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Applying Your Colour Palette</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid17 - colour scheme hue and saturation.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="21">
+    <div class="step-header">
+      <div class="step-num-badge">07</div>
+      <div class="step-meta">
+        <div class="step-label">Step 07 — Techniques</div>
+        <div class="step-title">COLOUR &amp; ENERGY</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Boost the Background</h4>
+        <p>Select your background layer → Image → Adjustments → Hue/Saturation. Increase Saturation by 20–30. Shift Hue very slightly towards warm orange. This makes the city feel vibrant and alive.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Warm Gradient Overlay</h4>
+        <p>Create a new layer above the background. Use the Gradient tool — set colours from warm orange/yellow (top) to transparent (bottom). Set blend mode to <code>Screen</code> at 25–35% opacity. This bathes the top of the poster in warmth like a sunny day.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Rotate an Animal for Energy (Extension)</h4>
+        <p>Select a supporting animal layer. Press <code>Ctrl+Alt+T</code> and rotate it 5–10 degrees. This small tilt makes the composition feel more chaotic and fun — perfect for a comedy poster.</p>
+      </div>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the saving bar.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Background saturation boosted — feels bright and warm <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Warm gradient overlay applied using Screen blend mode <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">At least one animal tilted for an energetic, chaotic feel <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 08 + 09: BILLING + LOGO ── -->
+  <div class="slide" data-slide="22">
+    <div class="step-header">
+      <div class="step-num-badge">08</div>
+      <div class="step-meta">
+        <div class="step-label">Step 08</div>
+        <div class="step-title">BILLING BLOCK</div>
+        <div class="anatomy-tag">ANATOMY ELEMENT 5 — BILLING BLOCK</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      The <strong>billing block</strong> is the small text at the bottom — actors, director, studio, rating. Even if no one reads it, its presence tells the audience this is a professional production. Every real movie poster has one.
+    </div>
+    <div class="objectives-block">
+      <div class="objectives-title">Key Objectives</div>
+      <div class="obj-row"><span class="tier tier-all">ALL</span> Add small credits text at the bottom — names, studio, rating</div>
+      <div class="obj-row"><span class="tier tier-most">MOST</span> Style it in a narrow condensed font at a small size</div>
+      <div class="obj-row"><span class="tier tier-some">SOME</span> Include a film rating box styled correctly</div>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="23">
+    <div class="step-header">
+      <div class="step-num-badge">08 / 09</div>
+      <div class="step-meta">
+        <div class="step-label">Steps 08 &amp; 09 — Techniques</div>
+        <div class="step-title">BILLING BLOCK &amp; STUDIO LOGO</div>
+        <div class="anatomy-tag">ANATOMY ELEMENTS 5 &amp; 6</div>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Add the Billing Block Text</h4>
+        <p>Select the Text tool. Draw a wide text box across the bottom. Type: <em>BISCUIT · POLLY · NIBBLES · A TORCH FILMS PRODUCTION · Screenplay by [Your Name] · Directed by [Your Name] · Music by [Your Name] · © 2025 · Rated U</em></p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Style It</h4>
+        <p>Font: condensed — try <em>Barlow Condensed</em> or <em>Arial Narrow</em>. Size: 6–8pt. Colour: white or dark depending on the background. Opacity: 70–80%. It should be barely readable — that's authentic.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">3</div>
+      <div class="instruction-content">
+        <h4>Add the Studio Logo</h4>
+        <p>File → Place → select your studio logo PNG. Place it bottom-left or bottom-right. Size it to roughly match the billing block height. If it's dark, set blend mode to <code>Screen</code>. If it's white, set blend mode to <code>Multiply</code> on a light area.</p>
+      </div>
+    </div>
+    <div class="save-reminder"><p><strong>Save now!</strong> File → Save As → Photopea PSD. Wait for the white saving bar to completely disappear.</p></div>
+    <ul class="checklist" style="margin-top:16px">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Billing block added with names, studio, and year <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Billing block styled in small condensed font with reduced opacity <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Studio logo placed as a PNG in the bottom corner <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Logo blend mode set correctly for visibility <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Film rating box added <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">💾 PSD saved <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+    </ul>
+  </div>
+
+  <!-- ── STEP 10: FINAL EXPORT ── -->
+  <div class="slide" data-slide="24">
+    <div class="step-header">
+      <div class="step-num-badge">10</div>
+      <div class="step-meta">
+        <div class="step-label">Step 10 — Final</div>
+        <div class="step-title">FINAL CHECKLIST &amp; EXPORT</div>
+      </div>
+    </div>
+    <p style="font-size:0.85rem;opacity:0.7;line-height:1.7;margin-bottom:20px;">Before exporting, check all six anatomy elements are present and your poster feels bright, fun, and targeted at families.</p>
+    <ul class="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>1 — Hero Shot:</strong> Main animal is large, expressive, and dominant <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>2 — Title / Typography:</strong> Bold, rounded, fun font — clearly readable <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>3 — Tagline:</strong> Hook phrase placed and styled smaller than the title <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>4 — Colour Palette:</strong> Warm yellows, oranges, and bright tones — feels like a comedy <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>5 — Billing Block:</strong> Small credits at the bottom <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text"><strong>6 — Studio Logo:</strong> Transparent PNG in the bottom corner <span class="tier tier-all" style="margin-left:6px">ALL</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Poster feels fun and would genuinely attract a family audience <span class="tier tier-most" style="margin-left:6px">MOST</span></div></li>
+      <li onclick="toggleCheck(this)"><div class="check-icon">✓</div><div class="checklist-item-text">Every design choice connects to the target audience and genre <span class="tier tier-some" style="margin-left:6px">SOME</span></div></li>
+    </ul>
+    <hr class="divider">
+    <div class="instruction-step">
+      <div class="instruction-num">1</div>
+      <div class="instruction-content">
+        <h4>Save Your PSD First</h4>
+        <p>File → Save As → Photopea PSD. Wait for the white saving bar to completely disappear.</p>
+      </div>
+    </div>
+    <div class="instruction-step">
+      <div class="instruction-num">2</div>
+      <div class="instruction-content">
+        <h4>Export as JPEG</h4>
+        <p>File → Export As → JPEG. Quality: 90%. Name the file <code>pet_escape_YOURNAME.jpg</code>. Save to your Year 8 Computing folder.</p>
+      </div>
+    </div>
+    <div class="video-placeholder">
+      <div class="video-placeholder-label">Watch — Saving and Exporting Your Final Poster</div>
+      <video controls width="100%" style="border-radius:6px;margin-top:12px">
+       <source src="photopea/Yr8 Poster vid18 - how to save the poster.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="slide" data-slide="25">
+    <div class="completion-block">
+      <div class="big-tick">🎬</div>
+      <h2>POSTER COMPLETE</h2>
+      <p>You've built a full theatrical movie poster from scratch — design plan, assets, composition, typography, colour, billing block, and studio logo. That's the full anatomy of a real movie poster.</p>
+      <div class="resource-links" style="justify-content:center">
+        <a href="https://www.photopea.com" target="_blank" class="resource-link primary">↩ Back to Photopea</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /workbook -->
+</div><!-- /scenario-2 -->
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <button class="nav-btn" id="btn-prev" onclick="prevSlide()">← Back</button>
+  <div class="nav-centre">
+    <span id="nav-scenario-label">Scenario 1 · Galactic Rift</span>
+    <span id="nav-slide-label">Slide 1 of 25</span>
+  </div>
+  <button class="nav-btn next" id="btn-next" onclick="nextSlide()">Next →</button>
+</div>
+
+<script>
+  const TOTAL_SLIDES = 25;
+  let currentScenario = 1;
+  let currentSlide = { 1: 1, 2: 1 };
+
+  const scenarioNames = {
+    1: 'Scenario 1 · Galactic Rift',
+    2: 'Scenario 2 · The Great Pet Escape'
+  };
+
+  function switchScenario(n) {
+    currentScenario = n;
+    document.querySelectorAll('.scenario-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('scenario-' + n).classList.add('active');
+    document.querySelectorAll('.scenario-tab').forEach((t, i) => {
+      t.classList.toggle('active', i === n - 1);
+    });
+    updateNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function getSlides() {
+    return document.querySelectorAll('#scenario-' + currentScenario + ' .slide');
+  }
+
+  function goToSlide(n) {
+    const slides = getSlides();
+    slides.forEach(s => s.classList.remove('active'));
+    const target = document.querySelector('#scenario-' + currentScenario + ' .slide[data-slide="' + n + '"]');
+    if (target) target.classList.add('active');
+    currentSlide[currentScenario] = n;
+    updateNav();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextSlide() {
+    const s = currentSlide[currentScenario];
+    if (s < TOTAL_SLIDES) goToSlide(s + 1);
+  }
+
+  function prevSlide() {
+    const s = currentSlide[currentScenario];
+    if (s > 1) goToSlide(s - 1);
+  }
+
+  function updateNav() {
+    const s = currentSlide[currentScenario];
+    document.getElementById('btn-prev').disabled = s <= 1;
+    document.getElementById('btn-next').disabled = s >= TOTAL_SLIDES;
+    document.getElementById('nav-scenario-label').textContent = scenarioNames[currentScenario];
+    document.getElementById('nav-slide-label').textContent = 'Slide ' + s + ' of ' + TOTAL_SLIDES;
+
+    // progress bars
+    const pct = ((s - 1) / (TOTAL_SLIDES - 1) * 100).toFixed(1) + '%';
+    const bar = document.getElementById('s' + currentScenario + '-progress-bar');
+    if (bar) bar.style.width = pct;
+    const lbl = document.getElementById('s' + currentScenario + '-progress-label');
+    if (lbl) lbl.textContent = 'SLIDE ' + s + ' OF ' + TOTAL_SLIDES;
+    const cnt = document.getElementById('s' + currentScenario + '-progress-count');
+    if (cnt) cnt.textContent = s + ' / ' + TOTAL_SLIDES;
+  }
+
+  function toggleCheck(el, key) {
+    el.classList.toggle('checked');
+    if (key) localStorage.setItem(key, el.classList.contains('checked') ? '1' : '0');
+  }
+
+  function autoSave(key, value, indicatorId) {
+    localStorage.setItem(key, value);
+    const ind = document.getElementById(indicatorId);
+    if (ind) {
+      ind.classList.add('visible');
+      clearTimeout(ind._timeout);
+      ind._timeout = setTimeout(() => ind.classList.remove('visible'), 2000);
+    }
+  }
+
+  function restoreData() {
+    // restore text inputs
+    document.querySelectorAll('[id^="s1_"], [id^="s2_"]').forEach(el => {
+      const val = localStorage.getItem(el.id);
+      if (val !== null) el.value = val;
+    });
+  }
+
+  // keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+  });
+
+  restoreData();
+  updateNav();
+</script>
+</body>
+</html>
